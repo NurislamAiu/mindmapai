@@ -22,36 +22,39 @@ class BottomNavBar extends StatelessWidget {
       NavItem.profile: (Icons.person_outline_rounded, 'Profile'),
     };
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.85),
-              borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: navItems.entries.map((entry) {
-                final item = entry.key;
-                final icon = entry.value.$1;
-                final label = entry.value.$2;
-                final isActive = activeTab == item;
+    return SafeArea(
+      top: false, // We only want padding at the bottom
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 8.0), // Reduced bottom padding
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.85),
+                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                border: Border.all(color: Colors.white.withOpacity(0.2)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: navItems.entries.map((entry) {
+                  final item = entry.key;
+                  final icon = entry.value.$1;
+                  final label = entry.value.$2;
+                  final isActive = activeTab == item;
 
-                return Expanded(
-                  child: _NavItemWidget(
-                    icon: icon,
-                    label: label,
-                    isActive: isActive,
-                    onTap: () => onTabChange(item),
-                  ),
-                );
-              }).toList(),
+                  return Expanded(
+                    child: _NavItemWidget(
+                      icon: icon,
+                      label: label,
+                      isActive: isActive,
+                      onTap: () => onTabChange(item),
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
