@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="mindmapai"
+        android:label="Mind Map.AI"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
