@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../home/presentation/screens/home_screen.dart';
 import '../providers/main_provider.dart';
 import '../widgets/bottom_nav_bar.dart';
 
@@ -105,9 +106,9 @@ class _ConsumerState<T extends ChangeNotifier> extends State<Consumer<T>> {
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
-  // Placeholder pages for each tab
+  // Pages for each tab, with HomeScreen now in the first position.
   final List<Widget> _pages = const [
-    _PlaceholderPage(title: 'Home', color: Colors.red),
+    HomeScreen(),
     _PlaceholderPage(title: 'Ideas', color: Colors.green),
     _PlaceholderPage(title: 'Explore', color: Colors.blue),
     _PlaceholderPage(title: 'Profile', color: Colors.orange),
@@ -128,6 +129,8 @@ class MainScreen extends StatelessWidget {
             body: PageView(
               controller: provider.pageController,
               onPageChanged: provider.onPageChanged,
+              // Prevent scrolling for now to use the bottom nav bar exclusively
+              physics: const NeverScrollableScrollPhysics(), 
               children: _pages,
             ),
           );
