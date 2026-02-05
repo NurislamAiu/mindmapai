@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/template.dart';
+import '../../domain/entities/explore_template.dart';
 import '../../domain/repositories/explore_repository.dart';
 
 class ExploreRepositoryImpl implements ExploreRepository {

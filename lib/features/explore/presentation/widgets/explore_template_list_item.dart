@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/template.dart';
-import 'template_card_widgets.dart';
+import '../../domain/entities/explore_template.dart';
+import 'explore_template_card_widgets.dart';
 
 class TemplateListItem extends StatelessWidget {
   final Template template;

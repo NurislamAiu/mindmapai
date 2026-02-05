@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import '../../domain/entities/template.dart';
-import 'template_card_widgets.dart';
+import '../../domain/entities/explore_template.dart';
+import 'explore_template_card_widgets.dart';
 
 class RecommendedTemplateCard extends StatefulWidget {
   final Template template;

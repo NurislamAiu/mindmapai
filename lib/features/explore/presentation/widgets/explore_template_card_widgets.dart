@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/template.dart';
+import '../../domain/entities/explore_template.dart';
 
 // Helper to convert TemplateColor enum to MaterialColor
 MaterialColor getTemplateColor(TemplateColor color) {

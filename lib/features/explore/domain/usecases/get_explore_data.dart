@@ -1,4 +1,4 @@
-import '../entities/template.dart';
+import '../entities/explore_template.dart';
 import '../repositories/explore_repository.dart';
 
 // Этот use case будет возвращать кортеж (tuple) с обоими типами данных
