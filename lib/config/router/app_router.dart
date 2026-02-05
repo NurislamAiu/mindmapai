@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/ideas/presentation/screens/ideas_screen.dart';
@@ -48,7 +49,7 @@ final appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/explore',
-              builder: (context, state) => const ExploreScreen(), // <-- ЗАМЕНА
+              builder: (context, state) => const ExploreScreen(),
             ),
           ],
         ),
@@ -56,7 +57,7 @@ final appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/profile',
-              builder: (context, state) => const _PlaceholderPage(title: 'Profile', color: Colors.orange),
+              builder: (context, state) => const ProfileScreen(),
             ),
           ],
         ),
@@ -64,23 +65,3 @@ final appRouter = GoRouter(
     ),
   ],
 );
-
-// Простой плейсхолдер
-class _PlaceholderPage extends StatelessWidget {
-  final String title;
-  final Color color;
-  const _PlaceholderPage({required this.title, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-      ),
-    );
-  }
-}
