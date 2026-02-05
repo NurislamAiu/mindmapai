@@ -1,64 +1,179 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import '../../domain/entities/template.dart';
-import 'template_card_widgets.dart'; // Общие элементы UI для карточек
+import 'template_card_widgets.dart';
 
-class RecommendedTemplateCard extends StatelessWidget {
+class RecommendedTemplateCard extends StatefulWidget {
   final Template template;
   const RecommendedTemplateCard({super.key, required this.template});
 
   @override
+  State<RecommendedTemplateCard> createState() => _RecommendedTemplateCardState();
+}
+
+class _RecommendedTemplateCardState extends State<RecommendedTemplateCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _shineController;
+
+  @override
+  void initState() {
+    super.initState();
+    _shineController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _shineController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final color = getTemplateColor(template.color).shade600;
+    final baseColor = getTemplateColor(widget.template.color);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Row(
             children: [
-              Icon(Icons.star_rounded, color: Colors.indigo, size: 20),
-              SizedBox(width: 8),
+              Icon(Icons.star_rounded, color: baseColor.shade400, size: 20),
+              const SizedBox(width: 8),
               Text(
                 'Recommended for you',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
         ),
         const SizedBox(height: 12),
+        // The main card container
         Container(
-          padding: const EdgeInsets.all(16.0),
+          clipBehavior: Clip.antiAlias, // Important for the shine effect
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: BorderRadius.circular(28.0),
             gradient: LinearGradient(
-              colors: [getTemplateColor(template.color).shade50, Colors.indigo.shade50],
+              colors: [baseColor.shade800, baseColor.shade900],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            border: Border.all(color: Colors.indigo.shade100.withOpacity(0.8)),
+            boxShadow: [
+              BoxShadow(
+                color: baseColor.shade200.withOpacity(0.5),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              )
+            ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              TemplateHeader(template: template),
-              const SizedBox(height: 12),
-              TemplateBadges(template: template, isRecommended: true),
-              const SizedBox(height: 12),
-              Text(template.outcome, style: textTheme.bodySmall?.copyWith(color: Colors.grey[600])),
-              const SizedBox(height: 8),
-              if (template.reason != null)
-                Text(
-                  template.reason!,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: color.withOpacity(0.8),
-                    fontStyle: FontStyle.italic,
-                  ),
+              // The animated shine effect
+              Positioned.fill(
+                child: AnimatedBuilder(
+                  animation: _shineController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(
+                        -300 + (_shineController.value * 800),
+                        -100,
+                      ),
+                      child: Transform.rotate(
+                        angle: -math.pi / 4,
+                        child: Container(
+                          width: 150,
+                          height: 400,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.0),
+                                Colors.white.withOpacity(0.15),
+                                Colors.white.withOpacity(0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
+              ),
+              // The content of the card
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Using a custom header for white text
+                    _buildHeader(context, widget.template),
+                    const SizedBox(height: 16),
+                    TemplateBadges(template: widget.template, isRecommended: true),
+                    const SizedBox(height: 16),
+                    Text(
+                      widget.template.outcome,
+                      style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                    ),
+                    const SizedBox(height: 12),
+                    if (widget.template.reason != null)
+                      Text(
+                        '"${widget.template.reason!}"',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: baseColor.shade200,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ],
           ),
         )
+      ],
+    );
+  }
+
+  // A custom header widget to handle white text color
+  Widget _buildHeader(BuildContext context, Template template) {
+    final textTheme = Theme.of(context).textTheme;
+    final color = getTemplateColor(template.color);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Icon(template.icon, color: Colors.white),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                template.title,
+                style: textTheme.headlineSmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                template.description,
+                style: textTheme.bodyMedium?.copyWith(color: Colors.white.withOpacity(0.8)),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

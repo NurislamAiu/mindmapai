@@ -29,7 +29,7 @@ class TemplateHeader extends StatelessWidget {
           width: useLargeIcon ? 48 : 40,
           height: useLargeIcon ? 48 : 40,
           decoration: BoxDecoration(
-            color: color.shade100,
+            color: color.shade50, // Minimalist accent color
             borderRadius: BorderRadius.circular(useLargeIcon ? 16 : 12),
           ),
           child: Icon(template.icon, color: color.shade600),
@@ -57,10 +57,26 @@ class TemplateHeader extends StatelessWidget {
 class TemplateBadges extends StatelessWidget {
   final Template template;
   final bool isRecommended;
-  const TemplateBadges({super.key, required this.template, this.isRecommended = false});
+  const TemplateBadges({
+    super.key,
+    required this.template,
+    this.isRecommended = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // Styles for the recommended card's dark background
+    final recommendedBgColor = Colors.white.withOpacity(0.1);
+    final recommendedFgColor = Colors.white;
+    
+    // Default styles for normal light cards
+    final defaultBgColor = Colors.grey.shade100;
+    final defaultFgColor = Colors.grey.shade700;
+
+    // Determine which colors to use
+    final bgColor = isRecommended ? recommendedBgColor : defaultBgColor;
+    final fgColor = isRecommended ? recommendedFgColor : defaultFgColor;
+    
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
@@ -68,14 +84,14 @@ class TemplateBadges extends StatelessWidget {
         _Badge(
           label: template.aiHint,
           icon: Icons.auto_awesome_rounded,
-          backgroundColor: isRecommended ? Colors.white.withOpacity(0.8) : Colors.grey.shade100,
-          foregroundColor: isRecommended ? getTemplateColor(template.color).shade700 : Colors.grey.shade700,
+          backgroundColor: bgColor,
+          foregroundColor: fgColor,
         ),
         if (template.usesCredits)
           _Badge(
             label: 'Uses AI credits',
-            backgroundColor: isRecommended ? Colors.white.withOpacity(0.8) : Colors.grey.shade100,
-            foregroundColor: Colors.grey.shade600,
+            backgroundColor: bgColor,
+            foregroundColor: isRecommended ? fgColor.withOpacity(0.8) : Colors.grey.shade600,
           ),
       ],
     );

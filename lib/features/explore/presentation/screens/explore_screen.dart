@@ -92,7 +92,7 @@ class ExploreScreen extends StatelessWidget {
         
         const WhyUseTemplatesCard(),
 
-        const SizedBox(height: 120), // Padding for nav bar
+        const SizedBox(height: 50), // Padding for nav bar
       ],
     );
   }
