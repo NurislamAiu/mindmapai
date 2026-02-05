@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'features/splash/presentation/screens/splash_screen.dart';
+import 'config/router/app_router.dart';
 
-void main() {
+void main() async {
+  // Убеждаемся, что все биндинги Flutter инициализированы.
+  // Это ОБЯЗАТЕЛЬНО для асинхронного main и будущей инициализации Firebase.
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Здесь в будущем будет инициализация Firebase, API, DI-контейнеров и т.д.
+  // await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -11,7 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Используем GoogleFonts для создания текстовой темы
     final textTheme = Theme.of(context).textTheme;
     final manropeTextTheme = GoogleFonts.manropeTextTheme(textTheme).copyWith(
       headlineMedium: GoogleFonts.manrope(
@@ -26,7 +32,8 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    return MaterialApp(
+    // Меняем MaterialApp на MaterialApp.router
+    return MaterialApp.router(
       title: 'MindMapAI',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -38,7 +45,8 @@ class MyApp extends StatelessWidget {
         textTheme: manropeTextTheme,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(), // Точка входа теперь - SplashScreen
+      // Передаем конфигурацию роутера
+      routerConfig: appRouter,
     );
   }
 }

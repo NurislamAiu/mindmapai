@@ -1,22 +1,120 @@
 import 'package:flutter/material.dart';
-import '../../../main/presentation/screens/main_screen.dart'; // For Provider
 import '../../data/repositories/home_repository_impl.dart';
 import '../../domain/entities/home_screen_data.dart';
 import '../../domain/usecases/get_home_screen_data.dart';
 import '../providers/home_provider.dart';
-import '../widgets/empty_state.dart';
-import '../widgets/focus_card.dart';
-import '../widgets/primary_action_card.dart';
-import '../widgets/quick_actions_row.dart';
-import '../widgets/recent_ideas_section.dart';
+import '../widgets/home_credits_indicator.dart';
+import '../widgets/home_empty_state.dart';
+import '../widgets/home_focus_card.dart';
+import '../widgets/home_primary_action_card.dart';
+import '../widgets/home_quick_actions_row.dart';
+import '../widgets/home_recent_ideas_section.dart';
+
+// --- Вспомогательные виджеты для Provider ---
+class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
+  final T Function(BuildContext context) create;
+  final Widget child;
+
+  const ChangeNotifierProvider({
+    super.key,
+    required this.create,
+    required this.child,
+  });
+
+  static T of<T extends ChangeNotifier>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_InheritedProvider<T>>()!.notifier!;
+  }
+
+  @override
+  State<ChangeNotifierProvider> createState() => _ChangeNotifierProviderState<T>();
+}
+
+class _ChangeNotifierProviderState<T extends ChangeNotifier> extends State<ChangeNotifierProvider<T>> {
+  late final T notifier;
+
+  @override
+  void initState() {
+    super.initState();
+    notifier = widget.create(context);
+  }
+
+  @override
+  void dispose() {
+    notifier.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return _InheritedProvider<T>(
+      notifier: notifier,
+      child: widget.child,
+    );
+  }
+}
+
+class _InheritedProvider<T extends ChangeNotifier> extends InheritedWidget {
+  final T? notifier;
+
+  const _InheritedProvider({
+    required Widget child,
+    this.notifier,
+  }) : super(child: child);
+
+  @override
+  bool updateShouldNotify(_InheritedProvider<T> oldWidget) {
+    return notifier != oldWidget.notifier;
+  }
+}
+
+class Consumer<T extends ChangeNotifier> extends StatefulWidget {
+  final Widget Function(BuildContext context, T provider, Widget? child) builder;
+  final Widget? child;
+  
+  const Consumer({
+    super.key,
+    required this.builder,
+    this.child,
+  });
+
+  @override
+  State<Consumer<T>> createState() => _ConsumerState<T>();
+}
+
+class _ConsumerState<T extends ChangeNotifier> extends State<Consumer<T>> {
+  late T provider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    provider = ChangeNotifierProvider.of<T>(context);
+    provider.addListener(_listener);
+  }
+
+  @override
+  void dispose() {
+    provider.removeListener(_listener);
+    super.dispose();
+  }
+
+  void _listener() => setState(() {});
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(
+      context,
+      provider,
+      widget.child,
+    );
+  }
+}
+// --- Конец вспомогательных виджетов ---
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Composition Root: In a larger app, this would be handled by a DI container like get_it.
-    // For this feature's scope, creating dependencies here is a clean, localized approach.
     final homeRepository = HomeRepositoryImpl();
     final getHomeScreenData = GetHomeScreenData(homeRepository);
 
@@ -26,8 +124,6 @@ class HomeScreen extends StatelessWidget {
       child: Consumer<HomeProvider>(
         builder: (context, provider, child) {
           return Scaffold(
-            // To keep the UI clean, we remove the AppBar for now.
-            // The header is part of the scrollable content.
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: SafeArea(
               child: _buildBody(context, provider),
@@ -54,15 +150,22 @@ class HomeScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24.0),
-          // Header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('Welcome back', style: textTheme.headlineSmall),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Welcome back', style: textTheme.headlineSmall),
+                CreditsIndicator(creditCount: data.creditsRemaining),
+              ],
+            ),
           ),
           const SizedBox(height: 4.0),
           Padding(
@@ -73,29 +176,16 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24.0),
-
-          // Cards and Actions
           const PrimaryActionCard(),
           const SizedBox(height: 16.0),
           FocusCard(lastIdea: data.lastIdea),
           const SizedBox(height: 16.0),
           const QuickActionsRow(),
           const SizedBox(height: 32.0),
-
-          // Conditional Content
           if (data.hasIdeas)
             RecentIdeasSection(ideas: data.recentIdeas)
           else
             const EmptyState(),
-          
-          // Footer
-          const SizedBox(height: 16.0),
-          Center(
-            child: Text(
-              'You have ${data.creditsRemaining} AI credits',
-              style: textTheme.bodySmall?.copyWith(color: Colors.grey),
-            ),
-          ),
           const SizedBox(height: 120), // Bottom padding for floating nav bar
         ],
       ),

@@ -3,7 +3,7 @@ import 'idea.dart';
 class HomeScreenData {
   final int creditsRemaining;
   final List<Idea> recentIdeas;
-  final Idea? lastIdea; // The most recent idea to continue with
+  final Idea? lastIdea;
 
   HomeScreenData({
     required this.creditsRemaining,

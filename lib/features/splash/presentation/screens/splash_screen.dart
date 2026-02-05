@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import '../../../onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 
 class SplashScreen extends StatefulWidget {
@@ -25,20 +25,10 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate after a delay
-    Timer(const Duration(milliseconds: 1800), () {
+    Timer(const Duration(milliseconds: 2800), () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const OnboardingScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-            transitionDuration: const Duration(milliseconds: 800),
-          ),
-        );
+        // Используем GoRouter для навигации
+        context.go('/onboarding');
       }
     });
   }
@@ -51,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Set system UI to be subtle
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       systemNavigationBarColor: Colors.transparent,
@@ -64,7 +53,6 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo
             FadeTransition(
               opacity: CurvedAnimation(parent: _controller, curve: Curves.easeIn),
               child: ScaleTransition(
@@ -80,7 +68,6 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
             ),
-            // App Name
             const SizedBox(height: 24),
             FadeTransition(
               opacity: CurvedAnimation(
@@ -120,7 +107,6 @@ class _LogoPainter extends CustomPainter {
     final secondaryColor = Colors.indigo[400]!;
     final tertiaryColor = Colors.indigo[300]!;
 
-    // Node Positions
     final centerNode = (pos: center, radius: 6.0);
     final secondaryNodes = List.generate(4, (i) {
       final angle = (i * 90.0) * (math.pi / 180);
@@ -138,7 +124,6 @@ class _LogoPainter extends CustomPainter {
       );
     });
 
-    // Paints
     final linePaint = (Color color, double stroke) => Paint()
       ..color = color
       ..strokeWidth = stroke
@@ -146,7 +131,6 @@ class _LogoPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
     final nodePaint = Paint();
 
-    // --- Draw Glow ---
     final glowProgress = _getAnimValue(0.0, 0.5);
     if (glowProgress > 0) {
       final glowPaint = Paint()
@@ -159,7 +143,6 @@ class _LogoPainter extends CustomPainter {
       canvas.drawCircle(center, size.width * 0.4, glowPaint);
     }
     
-    // --- Draw Primary Connections & Center Node ---
     final primaryProgress = _getAnimValue(0.1, 0.4);
     for (var node in secondaryNodes) {
         final currentEnd = Offset.lerp(center, node.pos, primaryProgress)!;
@@ -168,7 +151,6 @@ class _LogoPainter extends CustomPainter {
     nodePaint.color = mainColor;
     canvas.drawCircle(center, centerNode.radius, nodePaint);
 
-    // --- Draw Secondary Connections & Nodes ---
     final secondaryProgress = _getAnimValue(0.3, 0.5);
     for (int i = 0; i < tertiaryNodes.length; i++) {
         final parentPos = secondaryNodes[i ~/ 2].pos;
@@ -180,7 +162,6 @@ class _LogoPainter extends CustomPainter {
         canvas.drawCircle(node.pos, node.radius * primaryProgress, nodePaint);
     }
 
-    // --- Draw Tertiary Nodes ---
     final tertiaryProgress = _getAnimValue(0.5, 0.5);
     if (tertiaryProgress > 0) {
         for (var node in tertiaryNodes) {

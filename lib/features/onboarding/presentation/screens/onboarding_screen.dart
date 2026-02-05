@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../main/presentation/screens/main_screen.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/onboarding_page.dart';
 import '../widgets/onboarding_visual_1.dart';
 import '../widgets/onboarding_visual_2.dart';
@@ -37,17 +37,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _onNext() {
     HapticFeedback.lightImpact();
     if (_pageNotifier.value.round() == 2) {
-      // Navigate to the new MainScreen
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const MainScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-          transitionDuration: const Duration(milliseconds: 800),
-        ),
-      );
+      // Используем GoRouter для перехода на главный экран
+      context.go('/home');
     } else {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
