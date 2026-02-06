@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart'; //
 import 'package:mindmapai/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:mindmapai/features/profile/domain/usecases/get_user_usecase.dart';
 import 'package:mindmapai/features/profile/domain/usecases/sign_out_usecase.dart';
@@ -67,7 +68,8 @@ class ProfileView extends StatelessWidget {
                             icon: Icons.star_border_rounded,
                             title: 'Upgrade to Pro',
                             subtitle: 'Unlock unlimited AI analyses',
-                            onTap: () {},
+
+                            onTap: () => context.push('/upgrade'), 
                             isUpgrade: true,
                           ),
                           const SizedBox(height: 8.0),

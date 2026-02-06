@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
+import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
+import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/ideas/presentation/screens/ideas_screen.dart';
@@ -23,6 +25,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => const OnboardingScreen(),
+    ),
+    GoRoute(
+      path: '/upgrade',
+      builder: (context, state) => const UpgradeScreen(),
+    ),
+    GoRoute( // <-- НОВЫЙ МАРШРУТ
+      path: '/go-pro',
+      builder: (context, state) => const GoProScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
