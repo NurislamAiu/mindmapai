@@ -10,8 +10,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
     // This would typically come from an API or a local database
     return const UserEntity(
       id: '123',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
+      name: 'Nurislam Ilyassov',
+      email: 'nuris.dev@gmail.com',
       ideasAnalyzed: 3,
       daysActive: 7,
     );

@@ -4,14 +4,10 @@ import 'package:mindmapai/features/profile/domain/entities/user_entity.dart';
 class ProfileStatsCard extends StatelessWidget {
   final UserEntity user;
 
-  const ProfileStatsCard({
-    super.key,
-    required this.user,
-  });
+  const ProfileStatsCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    // Этот контейнер теперь является фоном для двух новых карточек
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -34,12 +30,12 @@ class ProfileStatsCard extends StatelessWidget {
             child: Text(
               'Your Progress',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[850],
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[850],
+              ),
             ),
           ),
-          // 1. Используем Row для размещения двух отдельных карточек
+
           Row(
             children: [
               Expanded(
@@ -67,7 +63,6 @@ class ProfileStatsCard extends StatelessWidget {
   }
 }
 
-// 2. Полностью переработанный виджет для отображения статистики
 class _StatItem extends StatelessWidget {
   final String value;
   final String label;
@@ -87,7 +82,6 @@ class _StatItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
       decoration: BoxDecoration(
-        // 3. Мягкий градиент для каждой карточки
         gradient: LinearGradient(
           colors: [
             color.shade50.withOpacity(0.4),
@@ -97,12 +91,11 @@ class _StatItem extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: Colors.white, width: 1.5)
+        border: Border.all(color: Colors.white, width: 1.5),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // 4. Акцентная иконка с тенью
           Container(
             width: 48,
             height: 48,
@@ -113,18 +106,14 @@ class _StatItem extends StatelessWidget {
                 BoxShadow(
                   color: color.shade200.withOpacity(0.8),
                   blurRadius: 12,
-                  offset: const Offset(0, 5)
-                )
-              ]
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
-            child: Icon(
-              icon,
-              size: 24,
-              color: Colors.white,
-            ),
+            child: Icon(icon, size: 24, color: Colors.white),
           ),
           const SizedBox(height: 16),
-          // Статистическое значение
+
           Text(
             value,
             style: textTheme.headlineMedium?.copyWith(
@@ -134,11 +123,13 @@ class _StatItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          // Описание
+
           Text(
             label,
             textAlign: TextAlign.center,
-            style: textTheme.bodyMedium?.copyWith(color: color.shade800.withOpacity(0.9)),
+            style: textTheme.bodyMedium?.copyWith(
+              color: color.shade800.withOpacity(0.9),
+            ),
           ),
         ],
       ),
