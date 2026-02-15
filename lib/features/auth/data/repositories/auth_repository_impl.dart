@@ -22,4 +22,10 @@ class AuthRepositoryImpl implements AuthRepository {
     // TODO: implement signInWithGoogle
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> setupUserProfile({required String name, String? photoUrl}) {
+    // TODO: implement setupUserProfile
+    throw UnimplementedError();
+  }
 }

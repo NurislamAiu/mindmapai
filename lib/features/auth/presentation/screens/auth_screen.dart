@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/auth/presentation/widgets/apple_icon.dart';
 import 'package:mindmapai/features/auth/presentation/widgets/google_icon.dart';
 import 'package:mindmapai/features/auth/presentation/widgets/mind_map_logo.dart';
@@ -21,6 +22,13 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  void _continueWithEmail() {
+    if (_emailController.text.isNotEmpty) {
+      // Используем push вместо go, чтобы добавить экран в стек
+      context.push('/check-email', extra: _emailController.text);
+    }
   }
 
   @override
@@ -73,7 +81,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   SocialSignInButton(
                     text: 'Continue with Apple',
                     icon: const AppleIcon(
-                      size: 22
+                      size: 22,
+
                     ),
                     backgroundColor: Colors.black,
                     textColor: Colors.white,
@@ -139,7 +148,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       return ElevatedButton.icon(
                         icon: const Icon(Icons.mail_outline, size: 20),
                         label: const Text('Continue with email'),
-                        onPressed: value.text.isNotEmpty ? () {} : null,
+                        onPressed: value.text.isNotEmpty ? _continueWithEmail : null,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                            backgroundColor: const Color(0xFF4F46E5),

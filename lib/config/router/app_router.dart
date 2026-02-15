@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/auth/presentation/screens/auth_screen.dart';
+import 'package:mindmapai/features/auth/presentation/screens/check_email_screen.dart';
+import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_screen.dart';
+import 'package:mindmapai/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
@@ -30,6 +33,21 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/auth',
       builder: (context, state) => const AuthScreen(),
+    ),
+    GoRoute(
+      path: '/check-email',
+      builder: (context, state) {
+        final email = state.extra as String? ?? 'your-email@example.com';
+        return CheckEmailScreen(email: email);
+      },
+    ),
+    GoRoute(
+      path: '/deep-link-success',
+      builder: (context, state) => const DeepLinkSuccessScreen(),
+    ),
+    GoRoute(
+      path: '/profile-setup',
+      builder: (context, state) => const ProfileSetupScreen(),
     ),
     GoRoute(
       path: '/upgrade',
