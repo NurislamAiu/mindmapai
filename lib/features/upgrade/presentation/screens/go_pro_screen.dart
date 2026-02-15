@@ -29,7 +29,6 @@ class GoProView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Устанавливаем стиль системной панели для этого экрана
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
@@ -49,26 +48,27 @@ class GoProView extends StatelessWidget {
             if (state is GoProLoaded) {
               return Stack(
                 children: [
-                  // Основной скроллящийся контент
                   SingleChildScrollView(
-                    // Отступы, чтобы контент не перекрывался кнопками
                     padding: const EdgeInsets.fromLTRB(24, 64, 24, 160),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const _Header(),
                         const SizedBox(height: 32),
-                        // Карточки выбора
-                        ...state.plans.map((plan) => Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: PlanSelectionCard(
-                                plan: plan,
-                                isSelected: state.selectedPlan.id == plan.id,
-                                onTap: () => context.read<GoProCubit>().selectPlan(plan),
-                              ),
-                            )),
+
+                        ...state.plans.map(
+                          (plan) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: PlanSelectionCard(
+                              plan: plan,
+                              isSelected: state.selectedPlan.id == plan.id,
+                              onTap: () =>
+                                  context.read<GoProCubit>().selectPlan(plan),
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 32),
-                        // Анимированный список преимуществ
+
                         AnimatedSwitcher(
                           duration: const Duration(milliseconds: 350),
                           transitionBuilder: (child, animation) {
@@ -85,9 +85,9 @@ class GoProView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // "Парящие" кнопки внизу
+
                   _StickyFooter(selectedPlan: state.selectedPlan),
-                  // Кнопка "Назад"
+
                   _BackButton(),
                 ],
               );
@@ -99,8 +99,6 @@ class GoProView extends StatelessWidget {
     );
   }
 }
-
-// --- Локальные виджеты, переписанные для чистоты и стиля ---
 
 class _Header extends StatelessWidget {
   const _Header();
@@ -119,24 +117,32 @@ class _Header extends StatelessWidget {
               BoxShadow(
                 color: Colors.indigo.shade100.withOpacity(0.4),
                 blurRadius: 25,
-              )
+              ),
             ],
           ),
-          child: Icon(Icons.workspace_premium_outlined, color: Colors.indigo.shade500, size: 40),
+          child: Icon(
+            Icons.workspace_premium_outlined,
+            color: Colors.indigo.shade500,
+            size: 40,
+          ),
         ),
         const SizedBox(height: 24),
         Text(
           'Unlock Your Full Potential',
           textAlign: TextAlign.center,
           style: textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold, color: Colors.grey.shade900),
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade900,
+          ),
         ),
         const SizedBox(height: 12),
         Text(
           'Get monthly credits and access all premium features to level up your thinking.',
           textAlign: TextAlign.center,
           style: textTheme.bodyLarge?.copyWith(
-              color: Colors.grey.shade600, height: 1.5),
+            color: Colors.grey.shade600,
+            height: 1.5,
+          ),
         ),
       ],
     );
@@ -145,6 +151,7 @@ class _Header extends StatelessWidget {
 
 class _FeaturesList extends StatelessWidget {
   final List<String> features;
+
   const _FeaturesList({super.key, required this.features});
 
   @override
@@ -155,19 +162,22 @@ class _FeaturesList extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(28.0),
-        border: Border.all(color: Colors.grey.shade200.withOpacity(0.8))
+        border: Border.all(color: Colors.grey.shade200.withOpacity(0.8)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Pro features include:',
-              style: textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Pro features include:',
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 20),
-          ...features.map((feature) => Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: FeatureListItem(text: feature),
-              )),
+          ...features.map(
+            (feature) => Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: FeatureListItem(text: feature),
+            ),
+          ),
         ],
       ),
     );
@@ -176,6 +186,7 @@ class _FeaturesList extends StatelessWidget {
 
 class _StickyFooter extends StatelessWidget {
   final ProPlanEntity selectedPlan;
+
   const _StickyFooter({required this.selectedPlan});
 
   @override
@@ -185,45 +196,55 @@ class _StickyFooter extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 40), // Увеличен отступ
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
         decoration: BoxDecoration(
           color: Colors.white,
-          // Более мягкая и высокая тень для плавного перехода
+
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade200.withOpacity(1),
               blurRadius: 30.0,
               spreadRadius: 15.0,
               offset: const Offset(0, 5),
-            )
+            ),
           ],
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(32),
             topRight: Radius.circular(32),
-          )
+          ),
         ),
         child: Column(
           children: [
             ElevatedButton(
-              onPressed: () { /* TODO: Implement purchase logic */ },
+              onPressed: () {
+                /* TODO: Implement purchase logic */
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.indigo.shade600,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 18.0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0)),
-                elevation: 0, // Тень теперь на контейнере
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+                elevation: 0,
               ),
               child: Text(
                 'Subscribe to ${selectedPlan.title} Plan',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 12),
             TextButton(
-              onPressed: () { /* TODO: Implement restore purchases */ },
-              child: Text('Restore Purchases',
-                  style: TextStyle(color: Colors.grey.shade600)),
+              onPressed: () {
+                /* TODO: Implement restore purchases */
+              },
+              child: Text(
+                'Restore Purchases',
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
             ),
           ],
         ),
@@ -239,12 +260,15 @@ class _BackButton extends StatelessWidget {
       top: 50,
       left: 16,
       child: Container(
-         decoration: BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.5),
           shape: BoxShape.circle,
         ),
         child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.black87,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mindmapai/features/auth/presentation/screens/auth_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
@@ -14,7 +15,7 @@ import '../../features/splash/presentation/screens/splash_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/auth',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -25,6 +26,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/onboarding',
       builder: (context, state) => const OnboardingScreen(),
+    ),
+    GoRoute(
+      path: '/auth',
+      builder: (context, state) => const AuthScreen(),
     ),
     GoRoute(
       path: '/upgrade',

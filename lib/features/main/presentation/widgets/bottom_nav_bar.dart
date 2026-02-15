@@ -14,7 +14,6 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A map to associate nav items with their icons and labels
     final navItems = {
       NavItem.home: (Icons.home_rounded, 'Home'),
       NavItem.ideas: (Icons.lightbulb_outline_rounded, 'Ideas'),
@@ -23,37 +22,63 @@ class BottomNavBar extends StatelessWidget {
     };
 
     return SafeArea(
-      top: false, // We only want padding at the bottom
+      top: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 8.0), // Reduced bottom padding
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.85),
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                border: Border.all(color: Colors.white.withOpacity(0.2)),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.85),
+            borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+            border: Border.all(color: Colors.white.withOpacity(0.2)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                spreadRadius: 2,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: navItems.entries.map((entry) {
-                  final item = entry.key;
-                  final icon = entry.value.$1;
-                  final label = entry.value.$2;
-                  final isActive = activeTab == item;
-
-                  return Expanded(
-                    child: _NavItemWidget(
-                      icon: icon,
-                      label: label,
-                      isActive: isActive,
-                      onTap: () => onTabChange(item),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Stack(
+                children: [
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeInOut,
+                    left: (MediaQuery.of(context).size.width - 32) / navItems.length * activeTab.index,
+                    top: 0,
+                    bottom: 0,
+                    width: (MediaQuery.of(context).size.width - 32) / navItems.length,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.indigo.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(26.0),
+                        ),
+                      ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: navItems.entries.map((entry) {
+                      final item = entry.key;
+                      final icon = entry.value.$1;
+                      final label = entry.value.$2;
+                      return Expanded(
+                        child: _NavItemWidget(
+                          icon: icon,
+                          label: label,
+                          isActive: activeTab == item,
+                          onTap: () => onTabChange(item),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
             ),
           ),
@@ -84,30 +109,42 @@ class _NavItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-        decoration: BoxDecoration(
-          color: isActive ? Colors.indigo.withOpacity(0.08) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
+      child: SizedBox(
+        height: double.infinity,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 24.0,
-              color: isActive ? activeColor : inactiveColor,
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: isActive ? 1.0 : 0.0),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Icon(
+                  icon,
+                  size: 24.0,
+                  color: Color.lerp(inactiveColor, activeColor, value),
+                );
+              },
             ),
-            const SizedBox(height: 4.0),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                color: isActive ? activeColor : inactiveColor,
-              ),
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: isActive ? 1.0 : 0.0),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Transform.translate(
+                  offset: Offset(0, value * 2),
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.lerp(FontWeight.normal, FontWeight.bold, value),
+                      color: Color.lerp(inactiveColor, activeColor, value),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              },
             ),
           ],
         ),
