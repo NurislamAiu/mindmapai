@@ -88,7 +88,7 @@ class ExploreScreen extends StatelessWidget {
           separatorBuilder: (context, index) => const SizedBox(height: 10),
         ),
         
-        const SizedBox(height: 32.0),
+        const SizedBox(height: 12.0),
         
         const WhyUseTemplatesCard(),
 
