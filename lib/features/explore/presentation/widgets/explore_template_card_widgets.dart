@@ -39,7 +39,7 @@ class TemplateHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(template.title, style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+              Text(template.title, style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey.shade900)),
               const SizedBox(height: 4),
               Text(
                 template.description,
