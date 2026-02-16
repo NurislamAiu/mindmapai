@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/help_support/data/datasources/help_support_local_data_source.dart';
@@ -64,7 +63,7 @@ class HelpSupportScreen extends StatelessWidget {
                           fontSize: 16,
                           color: Colors.grey.shade700,
                           fontWeight: FontWeight.w300),
-                    ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.1),
+                    ),
                     const SizedBox(height: 32),
                     GridView.builder(
                       shrinkWrap: true,
@@ -79,21 +78,13 @@ class HelpSupportScreen extends StatelessWidget {
                       itemCount: state.data.quickHelpCards.length,
                       itemBuilder: (context, index) {
                         return QuickHelpCardWidget(
-                                card: state.data.quickHelpCards[index])
-                            .animate()
-                            .fadeIn(
-                                delay: (200 * (index * 0.5)).ms,
-                                duration: 500.ms)
-                            .slideY(begin: 0.2);
+                                card: state.data.quickHelpCards[index]);
                       },
                     ),
                     const SizedBox(height: 32),
                     const _SectionHeader(title: 'Frequently Asked Questions'),
                     const SizedBox(height: 16),
-                    FaqAccordion(faqItems: state.data.faqItems)
-                        .animate()
-                        .fadeIn(delay: 400.ms, duration: 500.ms)
-                        .slideY(begin: 0.2),
+                    FaqAccordion(faqItems: state.data.faqItems),
                     const SizedBox(height: 32),
                     const _SectionHeader(title: 'Get in Touch'),
                     const SizedBox(height: 16),
@@ -105,12 +96,7 @@ class HelpSupportScreen extends StatelessWidget {
                           const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         return ContactButton(
-                                item: state.data.contactItems[index])
-                            .animate()
-                            .fadeIn(
-                                delay: (500 + 100 * index).ms,
-                                duration: 500.ms)
-                            .slideY(begin: 0.2);
+                                item: state.data.contactItems[index]);
                       },
                     ),
                     const SizedBox(height: 32),
@@ -141,9 +127,7 @@ class HelpSupportScreen extends StatelessWidget {
                           ]
                         ],
                       ),
-                    ).animate()
-                        .fadeIn(delay: 800.ms, duration: 500.ms)
-                        .slideY(begin: 0.2),
+                    ),
                     const SizedBox(height: 48),
                   ],
                 ),

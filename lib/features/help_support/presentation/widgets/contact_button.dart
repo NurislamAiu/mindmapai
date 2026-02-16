@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/features/help_support/domain/entities/contact_item.dart';
 
@@ -23,7 +24,11 @@ class ContactButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            if (item.title == 'Contact Support') {
+              context.push('/contact-support');
+            }
+          },
           borderRadius: BorderRadius.circular(20.0),
           child: Padding(
             padding: const EdgeInsets.all(16.0),

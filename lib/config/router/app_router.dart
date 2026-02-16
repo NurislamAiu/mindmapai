@@ -4,6 +4,7 @@ import 'package:mindmapai/features/auth/presentation/screens/auth_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/check_email_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/profile_setup_screen.dart';
+import 'package:mindmapai/features/contact_support/presentation/screens/contact_support_screen.dart';
 import 'package:mindmapai/features/help_support/presentation/screens/help_support_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
@@ -66,6 +67,10 @@ final appRouter = GoRouter(
      GoRoute( 
       path: '/help-support',
       builder: (context, state) => const HelpSupportScreen(),
+    ),
+    GoRoute( 
+      path: '/contact-support',
+      builder: (context, state) => const ContactSupportScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
