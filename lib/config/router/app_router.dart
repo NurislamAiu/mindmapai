@@ -5,6 +5,7 @@ import 'package:mindmapai/features/auth/presentation/screens/check_email_screen.
 import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
+import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
@@ -53,9 +54,13 @@ final appRouter = GoRouter(
       path: '/upgrade',
       builder: (context, state) => const UpgradeScreen(),
     ),
-    GoRoute( // <-- НОВЫЙ МАРШРУТ
+    GoRoute(
       path: '/go-pro',
       builder: (context, state) => const GoProScreen(),
+    ),
+    GoRoute( // <-- НОВЫЙ МАРШРУТ
+      path: '/settings',
+      builder: (context, state) => const SettingsScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

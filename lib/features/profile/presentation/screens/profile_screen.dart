@@ -77,7 +77,7 @@ class ProfileView extends StatelessWidget {
                             icon: Icons.settings_outlined,
                             title: 'Settings',
                             subtitle: 'App preferences and options',
-                            onTap: () {},
+                            onTap: () => context.push('/settings'),
                           ),
                           const SizedBox(height: 8.0),
                           ProfileMenuItem(

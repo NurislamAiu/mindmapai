@@ -21,6 +21,7 @@ dependencies:
   gap: ^3.0.1
   font_awesome_flutter: ^10.7.0
   flutter_svg: ^2.0.10+1
+  iconsax: ^0.0.8
 
 
 dev_dependencies:
