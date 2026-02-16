@@ -27,6 +27,8 @@ class ContactButton extends StatelessWidget {
           onTap: () {
             if (item.title == 'Contact Support') {
               context.push('/contact-support');
+            } else if (item.title == 'Send Feedback') {
+              context.push('/send-feedback');
             }
           },
           borderRadius: BorderRadius.circular(20.0),
