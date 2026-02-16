@@ -10,9 +10,9 @@ abstract class SettingsLocalDataSource {
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   // In-memory storage for mock data
   UserProfile _userProfile = const UserProfile(
-    name: "Alex Chen",
-    email: "alex.chen@example.com",
-    subscriptionStatus: SubscriptionStatus.free,
+    name: "Nurislam Ilyassov",
+    email: "nurislamilyasov@gmail.com",
+    subscriptionStatus: SubscriptionStatus.pro,
     credits: 3,
   );
 

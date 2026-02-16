@@ -84,6 +84,15 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7F5),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: const Color(0xFFF8F7F5),
+        elevation: 0,
+        title: const _Header(),
+      ),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           if (state is SettingsLoading || state is SettingsInitial) {
@@ -99,7 +108,6 @@ class SettingsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _Header(),
                     _ProfileSection(userProfile: state.userProfile)
                         .animate()
                         .fadeIn(delay: 100.ms, duration: 600.ms)

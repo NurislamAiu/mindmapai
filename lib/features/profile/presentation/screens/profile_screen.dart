@@ -84,7 +84,7 @@ class ProfileView extends StatelessWidget {
                             icon: Icons.help_outline_rounded,
                             title: 'Help & Support',
                             subtitle: 'Get help using MindMapAI',
-                            onTap: () {},
+                            onTap: () => context.push('/help-support'),
                           ),
                           const SizedBox(height: 8.0),
                           ProfileMenuItem(
