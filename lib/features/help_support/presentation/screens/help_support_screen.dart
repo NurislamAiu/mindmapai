@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:mindmapai/common/widgets/common_app_bar.dart';
 import 'package:mindmapai/features/help_support/data/datasources/help_support_local_data_source.dart';
 import 'package:mindmapai/features/help_support/data/repositories/help_support_repository_impl.dart';
 import 'package:mindmapai/features/help_support/domain/usecases/get_help_support_data.dart';
@@ -18,19 +18,7 @@ class HelpSupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7F5),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Help & Support',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: const Color(0xFFF8F7F5),
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: const CommonAppBar(title: 'Help & Support'),
       body: BlocProvider(
         create: (context) => HelpSupportCubit(
           getHelpSupportData: GetHelpSupportData(
@@ -55,18 +43,17 @@ class HelpSupportScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 16),
                     Text(
-                      'We\'re here to help you think clearly and confidently.',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade700,
-                          fontWeight: FontWeight.w300),
+                      "We're here to help you think clearly and confidently.",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.w300,
+                          ),
                     ),
                     const SizedBox(height: 32),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
@@ -74,8 +61,7 @@ class HelpSupportScreen extends StatelessWidget {
                       ),
                       itemCount: state.data.quickHelpCards.length,
                       itemBuilder: (context, index) {
-                        return QuickHelpCardWidget(
-                                card: state.data.quickHelpCards[index]);
+                        return QuickHelpCardWidget(card: state.data.quickHelpCards[index]);
                       },
                     ),
                     const SizedBox(height: 32),
@@ -89,11 +75,9 @@ class HelpSupportScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.data.contactItems.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 12),
+                      separatorBuilder: (context, index) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
-                        return ContactButton(
-                                item: state.data.contactItems[index]);
+                        return ContactButton(item: state.data.contactItems[index]);
                       },
                     ),
                     const SizedBox(height: 32),
@@ -103,7 +87,7 @@ class HelpSupportScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
-                         boxShadow: [
+                        boxShadow: [
                           BoxShadow(
                             color: Colors.grey.shade200.withOpacity(0.8),
                             blurRadius: 20,
@@ -117,10 +101,11 @@ class HelpSupportScreen extends StatelessWidget {
                             legalButtons[i],
                             if (i < legalButtons.length - 1)
                               Divider(
-                                  height: 1,
-                                  color: Colors.grey.shade100,
-                                  indent: 16,
-                                  endIndent: 16),
+                                height: 1,
+                                color: Colors.grey.shade100,
+                                indent: 16,
+                                endIndent: 16,
+                              ),
                           ]
                         ],
                       ),
@@ -130,7 +115,7 @@ class HelpSupportScreen extends StatelessWidget {
                 ),
               );
             }
-            return const SizedBox.shrink();
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

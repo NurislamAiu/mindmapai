@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:mindmapai/common/widgets/common_app_bar.dart';
 import 'package:mindmapai/features/upgrade/data/repositories/upgrade_repository_impl.dart';
 import 'package:mindmapai/features/upgrade/domain/usecases/get_credit_packs_usecase.dart';
 import 'package:mindmapai/features/upgrade/presentation/cubit/upgrade_cubit.dart';
@@ -16,7 +16,6 @@ class UpgradeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This setup is for demonstration. In a real app, you'd use a dependency injection framework.
     final repository = UpgradeRepositoryImpl();
     final useCase = GetCreditPacksUseCase(repository);
 
@@ -40,6 +39,7 @@ class UpgradeView extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F7F5),
+        appBar: const CommonAppBar(title: 'Get More Credits'),
         body: BlocBuilder<UpgradeCubit, UpgradeState>(
           builder: (context, state) {
             if (state is UpgradeLoading || state is UpgradeInitial) {
@@ -54,43 +54,36 @@ class UpgradeView extends StatelessWidget {
               );
             }
             if (state is UpgradeLoaded) {
-              return Stack(
-                children: [
-                  SafeArea(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(24, 64, 24, 40),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 420),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const _Header(),
-                              const SizedBox(height: 32),
-                              const CreditExplanationCard(),
-                              const SizedBox(height: 32),
-                              const _SectionHeader(),
-                              const SizedBox(height: 24),
-                              ...state.packs.map((pack) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 16.0),
-                                    child: CreditPackItem(
-                                      pack: pack,
-                                      isSelected: pack.id == state.selectedPack.id,
-                                      onTap: () => context.read<UpgradeCubit>().selectPack(pack),
-                                    ),
-                                  )),
-                              const SizedBox(height: 16),
-                              const UpgradeActionButtons(),
-                              const SizedBox(height: 24),
-                              const _TertiaryAction(),
-                            ],
-                          ),
-                        ),
-                      ),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const _Header(),
+                        const SizedBox(height: 32),
+                        const CreditExplanationCard(),
+                        const SizedBox(height: 32),
+                        const _SectionHeader(),
+                        const SizedBox(height: 24),
+                        ...state.packs.map((pack) => Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: CreditPackItem(
+                                pack: pack,
+                                isSelected: pack.id == state.selectedPack.id,
+                                onTap: () => context.read<UpgradeCubit>().selectPack(pack),
+                              ),
+                            )),
+                        const SizedBox(height: 16),
+                        const UpgradeActionButtons(),
+                        const SizedBox(height: 24),
+                        const _TertiaryAction(),
+                      ],
                     ),
                   ),
-                  const _BackButton(),
-                ],
+                ),
               );
             }
             return const SizedBox.shrink();
@@ -171,30 +164,6 @@ class _TertiaryAction extends StatelessWidget {
                 color: Colors.grey.shade600,
                 decoration: TextDecoration.underline,
               ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  const _BackButton();
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 50,
-      left: 16,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
-          shape: BoxShape.circle,
-        ),
-        child: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.black87,
-          ),
-          onPressed: () => context.pop(),
         ),
       ),
     );

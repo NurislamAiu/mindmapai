@@ -1,191 +1,174 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mindmapai/features/upgrade/data/repositories/upgrade_repository_impl.dart';
-import 'package:mindmapai/features/upgrade/domain/entities/pro_plan_entity.dart';
-import 'package:mindmapai/features/upgrade/domain/usecases/get_pro_plans_usecase.dart';
-import 'package:mindmapai/features/upgrade/presentation/cubit/go_pro_cubit.dart';
-import 'package:mindmapai/features/upgrade/presentation/cubit/go_pro_state.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:mindmapai/common/widgets/common_app_bar.dart';
 
 class GoProScreen extends StatelessWidget {
   const GoProScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This setup is for demonstration. In a real app, you'd use a dependency injection framework.
-    final repository = UpgradeRepositoryImpl();
-    final useCase = GetProPlansUseCase(repository);
-
-    return BlocProvider(
-      create: (context) => GoProCubit(getProPlansUseCase: useCase)..loadPlans(),
-      child: const GoProView(),
-    );
-  }
-}
-
-class GoProView extends StatelessWidget {
-  const GoProView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF8F7F5),
-        body: BlocBuilder<GoProCubit, GoProState>(
-          builder: (context, state) {
-            if (state is GoProLoading || state is GoProInitial) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (state is GoProError) {
-              return Center(child: Text(state.message));
-            }
-            if (state is GoProLoaded) {
-              return Stack(
-                children: [
-                  SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(24, 80, 24, 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const _Header(),
-                        const SizedBox(height: 32),
-                        const _ValueExplanation(),
-                        const SizedBox(height: 24),
-                        _ProPlanCard(plan: state.selectedPlan),
-                        const SizedBox(height: 32),
-                        _ActionButtons(selectedPlan: state.selectedPlan),
-                      ],
-                    ),
-                  ),
-                  const _BackButton(),
-                ],
-              );
-            }
-            return const SizedBox.shrink();
-          },
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F7F5),
+      appBar: const CommonAppBar(title: 'MindMapAI Pro'),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const _ProCard(),
+            const SizedBox(height: 32),
+            const _FeatureList(),
+            const SizedBox(height: 32),
+            const _SubscriptionButton(),
+            const SizedBox(height: 24),
+            const _LegalLinks(),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      children: [
-        Text(
-          'Go Pro',
-          textAlign: TextAlign.center,
-          style: textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.grey.shade900,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'For deeper, ongoing idea development',
-          textAlign: TextAlign.center,
-          style: textTheme.bodyLarge?.copyWith(
-            color: Colors.grey.shade600,
-            fontWeight: FontWeight.w300,
-            height: 1.5,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ValueExplanation extends StatelessWidget {
-  const _ValueExplanation();
+class _ProCard extends StatelessWidget {
+  const _ProCard();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Text(
-        'Pro gives you monthly AI credits and deeper insights, so you can continuously refine and grow your ideas.',
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.grey.shade700,
-              fontWeight: FontWeight.w300,
-              height: 1.5,
-            ),
-      ),
-    );
-  }
-}
-
-class _ProPlanCard extends StatelessWidget {
-  final ProPlanEntity plan;
-
-  const _ProPlanCard({required this.plan});
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(28.0),
-        border: Border.all(color: Colors.indigo.shade100),
+        gradient: LinearGradient(
+          colors: [Colors.indigo.shade400, Colors.indigo.shade600],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.indigo.shade50.withOpacity(0.5),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
+            color: Colors.indigo.shade200.withOpacity(0.7),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
       child: Column(
+        children: [
+          SvgPicture.asset(
+            'assets/icon/icon_svg.svg',
+            height: 80,
+            width: 80,
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ).animate().fadeIn(duration: 800.ms).scale(begin: const Offset(0.8, 0.8)),
+          const SizedBox(height: 16),
+          Text(
+            'Unlock Your Full Potential',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+          ).animate().fadeIn(delay: 200.ms, duration: 600.ms).slideY(begin: 0.2),
+          const SizedBox(height: 8),
+          Text(
+            'Go Pro to get unlimited AI analysis, priority support, and more.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white.withOpacity(0.8),
+                  height: 1.5,
+                  fontWeight: FontWeight.w300
+                ),
+          ).animate().fadeIn(delay: 400.ms, duration: 600.ms).slideY(begin: 0.2),
+        ],
+      ),
+    );
+  }
+}
+
+class _FeatureList extends StatelessWidget {
+  const _FeatureList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0, bottom: 16.0),
+          child: Text(
+            "What's Included",
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey.shade800,
+                ),
+          ),
+        ),
+        const _FeatureItem(
+          icon: Iconsax.cpu_charge,
+          title: 'Unlimited AI Analyses',
+          description: 'Explore your ideas without limits.',
+        ).animate().fadeIn(delay: 500.ms, duration: 500.ms).slideX(begin: -0.1),
+        const _FeatureItem(
+          icon: Iconsax.flash_1,
+          title: 'Faster Response Times',
+          description: 'Get your AI-powered insights quicker.',
+        ).animate().fadeIn(delay: 600.ms, duration: 500.ms).slideX(begin: -0.1),
+        const _FeatureItem(
+          icon: Iconsax.message_question,
+          title: 'Priority Support',
+          description: 'Get help from our team first.',
+        ).animate().fadeIn(delay: 700.ms, duration: 500.ms).slideX(begin: -0.1),
+         const _FeatureItem(
+          icon: Iconsax.star_1,
+          title: 'Exclusive Features',
+          description: 'Access to new Pro features as they are released.',
+        ).animate().fadeIn(delay: 800.ms, duration: 500.ms).slideX(begin: -0.1),
+      ],
+    );
+  }
+}
+
+class _FeatureItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const _FeatureItem({
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            plan.title,
-            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text(
-                plan.price,
-                style: textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade900,
+          Icon(icon, color: Colors.indigo.shade400, size: 24),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade900,
+                      ),
                 ),
-              ),
-              const SizedBox(width: 4),
-              Text(
-                plan.billingCycle,
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w300,
-                  color: Colors.grey.shade500,
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade600,
+                        fontWeight: FontWeight.w300,
+                      ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          ...plan.features.map(
-            (feature) => Padding(
-              padding: const EdgeInsets.only(bottom: 12.0),
-              child: _FeatureListItem(text: feature),
+              ],
             ),
           ),
         ],
@@ -194,120 +177,68 @@ class _ProPlanCard extends StatelessWidget {
   }
 }
 
-class _FeatureListItem extends StatelessWidget {
-  final String text;
+class _SubscriptionButton extends StatelessWidget {
+  const _SubscriptionButton();
 
-  const _FeatureListItem({required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // TODO: Handle subscription logic
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.indigo.shade600,
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        elevation: 2,
+        shadowColor: Colors.indigo.shade200,
+      ),
+      child: const Text(
+        'Subscribe Now - \$9.99/month',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: Colors.white
+        ),
+      ),
+    ).animate().fadeIn(delay: 900.ms, duration: 600.ms).slideY(begin: 0.2);
+  }
+}
+
+class _LegalLinks extends StatelessWidget {
+  const _LegalLinks();
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          width: 20,
-          height: 20,
-          margin: const EdgeInsets.only(top: 2.0),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.indigo.shade100,
-          ),
-          child: Icon(
-            Icons.check,
-            size: 14,
-            color: Colors.indigo.shade600,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(color: Colors.grey.shade700, fontWeight: FontWeight.w400),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ActionButtons extends StatelessWidget {
-  final ProPlanEntity selectedPlan;
-  const _ActionButtons({required this.selectedPlan});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            /* TODO: Implement purchase logic */
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.indigo.shade600,
-            foregroundColor: Colors.white,
-            minimumSize: const Size(double.infinity, 56),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0),
-            ),
-            elevation: 0,
-          ),
-          child: Text(
-            'Start Pro',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Cancel anytime',
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(color: Colors.grey.shade500, fontWeight: FontWeight.w300),
-        ),
-        const SizedBox(height: 12),
         TextButton(
-          onPressed: () {
-            /* TODO: Implement restore purchases */
-          },
+          onPressed: () {},
           child: Text(
-            'Restore Purchases',
+            'Terms of Service',
             style: TextStyle(
               color: Colors.grey.shade600,
-              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.w300,
+              fontSize: 12
+            ),
+          ),
+        ),
+        Text('•', style: TextStyle(color: Colors.grey.shade500)),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            'Privacy Policy',
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              decoration: TextDecoration.underline,
+               fontWeight: FontWeight.w300,
+               fontSize: 12
             ),
           ),
         ),
       ],
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  const _BackButton();
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 50,
-      left: 16,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
-          shape: BoxShape.circle,
-        ),
-        child: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.black87,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-    );
+    ).animate().fadeIn(delay: 1000.ms, duration: 600.ms);
   }
 }

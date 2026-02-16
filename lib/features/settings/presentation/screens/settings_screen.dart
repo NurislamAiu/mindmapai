@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:mindmapai/common/widgets/common_app_bar.dart';
 import 'package:mindmapai/features/settings/data/datasources/settings_local_data_source.dart';
 import 'package:mindmapai/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:mindmapai/features/settings/domain/entities/user_profile.dart';
@@ -20,7 +21,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This setup is for demonstration. In a real app, you'd use a dependency injection framework.
     final dataSource = SettingsLocalDataSourceImpl();
     final repository = SettingsRepositoryImpl(localDataSource: dataSource);
     final getUserProfile = GetUserProfile(repository);
@@ -41,7 +41,6 @@ class SettingsScreen extends StatelessWidget {
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
-  // Helper to show a snackbar for unimplemented features
   void _showFeatureNotImplementedSnackBar(BuildContext context, String featureName) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -51,7 +50,6 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  // Helper to show a confirmation dialog
   void _showDeleteAccountDialog(BuildContext context) {
     showCupertinoDialog(
       context: context,
@@ -61,15 +59,12 @@ class SettingsView extends StatelessWidget {
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
             child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
           ),
           CupertinoDialogAction(
             isDestructiveAction: true,
             child: const Text('Delete'),
             onPressed: () {
-              // TODO: Implement account deletion logic
               Navigator.of(context).pop();
               _showFeatureNotImplementedSnackBar(context, 'Account Deletion');
             },
@@ -79,20 +74,11 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7F5),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: const Color(0xFFF8F7F5),
-        elevation: 0,
-        title: const _Header(),
-      ),
+      appBar: const CommonAppBar(title: 'Settings'),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           if (state is SettingsLoading || state is SettingsInitial) {
@@ -104,112 +90,119 @@ class SettingsView extends StatelessWidget {
           if (state is SettingsLoaded) {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-              child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ProfileSection(userProfile: state.userProfile)
-                        .animate()
-                        .fadeIn(delay: 100.ms, duration: 600.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    _SettingsGroup(
-                      title: 'AI & Credits',
-                      children: [
-                        _SettingItem(
-                          icon: Iconsax.star,
-                          label: 'AI Credits',
-                          value: '${state.userProfile.credits} remaining',
-                          onTap: () => context.push('/upgrade'),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    'Manage your account and preferences',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w300,
                         ),
-                        _SettingItem(icon: Iconsax.document_text, label: 'Version history', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Version history')),
-                        _SettingItem(icon: Iconsax.chart, label: 'Usage history', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Usage history')),
-                        _SettingItem(
-                            icon: Iconsax.crown, label: 'Manage subscription', onTap: () => context.push('/go-pro')),
-                      ],
-                    ).animate().fadeIn(delay: 200.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
-                    _SettingsGroup(
-                      title: 'Preferences',
-                      children: [
-                        _SegmentedSetting<AnalysisDepth>(
-                          icon: Iconsax.setting_2,
-                          label: 'Default analysis depth',
-                          selectedValue: state.userSettings.analysisDepth,
-                          onChanged: (value) =>
-                              context.read<SettingsCubit>().updateAnalysisDepth(value),
-                          options: const {
-                            AnalysisDepth.standard: 'Standard',
-                            AnalysisDepth.deep: 'Deep',
-                          },
-                        ),
-                        _SegmentedSetting<MindMapLayout>(
-                          icon: Iconsax.layer,
-                          label: 'Default mind map layout',
-                          selectedValue: state.userSettings.mindMapLayout,
-                          onChanged: (value) =>
-                              context.read<SettingsCubit>().updateMindMapLayout(value),
-                          options: const {
-                            MindMapLayout.radial: 'Radial',
-                            MindMapLayout.tree: 'Tree',
-                            MindMapLayout.organic: 'Organic',
-                          },
-                        ),
-                        _SettingToggle(
-                          icon: Iconsax.document_upload,
-                          label: 'Auto-save versions',
-                          value: state.userSettings.autoSaveVersions,
-                          onChanged: (value) {
-                            HapticFeedback.lightImpact();
-                            context.read<SettingsCubit>().updateAutoSave(value);
-                          }
-                        ),
-                        _SettingToggle(
-                          icon: Iconsax.notification_bing,
-                          label: 'Haptic feedback',
-                          value: state.userSettings.hapticFeedback,
-                          onChanged: (value) {
-                            HapticFeedback.lightImpact();
-                            context.read<SettingsCubit>().updateHapticFeedback(value);
-                          }
-                        ),
-                      ],
-                    ).animate().fadeIn(delay: 300.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
-                    _SettingsGroup(
-                      title: 'Data & Privacy',
-                      children: [
-                        _SettingItem(
-                            icon: Iconsax.import, label: 'Export all data', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Export all data')),
-                        _SettingItem(
-                            icon: Iconsax.trash,
-                            label: 'Clear idea history',
-                            onTap: () => _showFeatureNotImplementedSnackBar(context, 'Clear idea history')),
-                        _SettingItem(
-                            icon: Iconsax.shield_tick, label: 'Privacy policy', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Privacy policy')),
-                        _SettingItem(
-                            icon: Iconsax.document, label: 'Terms of service', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Terms of service')),
-                        _SettingItem(
-                          icon: Iconsax.user_remove,
-                          label: 'Delete account',
-                          color: Colors.red.shade600,
-                          onTap: () => _showDeleteAccountDialog(context),
-                        ),
-                      ],
-                    ).animate().fadeIn(delay: 400.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
-                    _SettingsGroup(
-                      title: 'Support',
-                      children: [
-                        _SettingItem(
-                            icon: Iconsax.message, label: 'Contact support', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Contact support')),
-                        _SettingItem(
-                            icon: Iconsax.edit, label: 'Send feedback', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Send feedback')),
-                        _SettingItem(icon: Iconsax.info_circle, label: 'FAQ', onTap: () => _showFeatureNotImplementedSnackBar(context, 'FAQ')),
-                      ],
-                    ).animate().fadeIn(delay: 500.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
-                    const _AppInfo()
-                        .animate()
-                        .fadeIn(delay: 600.ms, duration: 600.ms)
-                        .slideY(begin: 0.1, end: 0),
-                  ],
-                ),
+                  ).animate().fadeIn(duration: 500.ms),
+                  const SizedBox(height: 24),
+                  _ProfileSection(userProfile: state.userProfile)
+                      .animate()
+                      .fadeIn(delay: 100.ms, duration: 600.ms)
+                      .slideY(begin: 0.1, end: 0),
+                  _SettingsGroup(
+                    title: 'AI & Credits',
+                    children: [
+                      _SettingItem(
+                        icon: Iconsax.star,
+                        label: 'AI Credits',
+                        value: '${state.userProfile.credits} remaining',
+                        onTap: () => context.push('/upgrade'),
+                      ),
+                      _SettingItem(icon: Iconsax.document_text, label: 'Version history', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Version history')),
+                      _SettingItem(icon: Iconsax.chart, label: 'Usage history', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Usage history')),
+                      _SettingItem(
+                          icon: Iconsax.crown, label: 'Manage subscription', onTap: () => context.push('/go-pro')),
+                    ],
+                  ).animate().fadeIn(delay: 200.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
+                  _SettingsGroup(
+                    title: 'Preferences',
+                    children: [
+                      _SegmentedSetting<AnalysisDepth>(
+                        icon: Iconsax.setting_2,
+                        label: 'Default analysis depth',
+                        selectedValue: state.userSettings.analysisDepth,
+                        onChanged: (value) =>
+                            context.read<SettingsCubit>().updateAnalysisDepth(value),
+                        options: const {
+                          AnalysisDepth.standard: 'Standard',
+                          AnalysisDepth.deep: 'Deep',
+                        },
+                      ),
+                      _SegmentedSetting<MindMapLayout>(
+                        icon: Iconsax.layer,
+                        label: 'Default mind map layout',
+                        selectedValue: state.userSettings.mindMapLayout,
+                        onChanged: (value) =>
+                            context.read<SettingsCubit>().updateMindMapLayout(value),
+                        options: const {
+                          MindMapLayout.radial: 'Radial',
+                          MindMapLayout.tree: 'Tree',
+                          MindMapLayout.organic: 'Organic',
+                        },
+                      ),
+                      _SettingToggle(
+                        icon: Iconsax.document_upload,
+                        label: 'Auto-save versions',
+                        value: state.userSettings.autoSaveVersions,
+                        onChanged: (value) {
+                          HapticFeedback.lightImpact();
+                          context.read<SettingsCubit>().updateAutoSave(value);
+                        }
+                      ),
+                      _SettingToggle(
+                        icon: Iconsax.notification_bing,
+                        label: 'Haptic feedback',
+                        value: state.userSettings.hapticFeedback,
+                        onChanged: (value) {
+                          HapticFeedback.lightImpact();
+                          context.read<SettingsCubit>().updateHapticFeedback(value);
+                        }
+                      ),
+                    ],
+                  ).animate().fadeIn(delay: 300.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
+                  _SettingsGroup(
+                    title: 'Data & Privacy',
+                    children: [
+                      _SettingItem(
+                          icon: Iconsax.import, label: 'Export all data', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Export all data')),
+                      _SettingItem(
+                          icon: Iconsax.trash,
+                          label: 'Clear idea history',
+                          onTap: () => _showFeatureNotImplementedSnackBar(context, 'Clear idea history')),
+                      _SettingItem(
+                          icon: Iconsax.shield_tick, label: 'Privacy policy', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Privacy policy')),
+                      _SettingItem(
+                          icon: Iconsax.document, label: 'Terms of service', onTap: () => _showFeatureNotImplementedSnackBar(context, 'Terms of service')),
+                      _SettingItem(
+                        icon: Iconsax.user_remove,
+                        label: 'Delete account',
+                        color: Colors.red.shade600,
+                        onTap: () => _showDeleteAccountDialog(context),
+                      ),
+                    ],
+                  ).animate().fadeIn(delay: 400.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
+                  _SettingsGroup(
+                    title: 'Support',
+                    children: [
+                      _SettingItem(
+                          icon: Iconsax.message, label: 'Contact support', onTap: () => context.push('/contact-support')),
+                      _SettingItem(
+                          icon: Iconsax.edit, label: 'Send feedback', onTap: () => context.push('/send-feedback')),
+                      _SettingItem(icon: Iconsax.info_circle, label: 'FAQ', onTap: () => context.push('/help-support')),
+                    ],
+                  ).animate().fadeIn(delay: 500.ms, duration: 600.ms).slideY(begin: 0.1, end: 0),
+                  const _AppInfo()
+                      .animate()
+                      .fadeIn(delay: 600.ms, duration: 600.ms)
+                      .slideY(begin: 0.1, end: 0),
+                ],
               ),
             );
           }
@@ -217,37 +210,6 @@ class SettingsView extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Settings',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade900,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Manage your account and preferences',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w300,
-                ),
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1, end: 0);
   }
 }
 
@@ -289,7 +251,6 @@ class _ProfileSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Avatar
               Container(
                 width: 52,
                 height: 52,
@@ -312,7 +273,6 @@ class _ProfileSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // User Info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,7 +297,6 @@ class _ProfileSection extends StatelessWidget {
                   ],
                 ),
               ),
-              // Status Badge
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
@@ -365,7 +324,6 @@ class _ProfileSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          // Action Button
           ElevatedButton(
             onPressed: () {
               HapticFeedback.lightImpact();
@@ -393,7 +351,6 @@ class _ProfileSection extends StatelessWidget {
     );
   }
 }
-
 
 class _SettingsGroup extends StatelessWidget {
   final String title;
