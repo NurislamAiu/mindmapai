@@ -29,6 +29,8 @@ class ContactButton extends StatelessWidget {
               context.push('/contact-support');
             } else if (item.title == 'Send Feedback') {
               context.push('/send-feedback');
+            } else if (item.title == 'Report a Problem') {
+              context.push('/report-problem');
             }
           },
           borderRadius: BorderRadius.circular(20.0),

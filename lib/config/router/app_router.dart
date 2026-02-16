@@ -8,6 +8,7 @@ import 'package:mindmapai/features/contact_support/presentation/screens/contact_
 import 'package:mindmapai/features/feedback/presentation/screens/send_feedback_screen.dart';
 import 'package:mindmapai/features/help_support/presentation/screens/help_support_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
+import 'package:mindmapai/features/report_problem/presentation/screens/report_problem_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
@@ -76,6 +77,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/send-feedback',
       builder: (context, state) => const SendFeedbackScreen(),
+    ),
+    GoRoute(
+      path: '/report-problem',
+      builder: (context, state) => const ReportProblemScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

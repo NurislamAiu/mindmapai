@@ -41,9 +41,6 @@ class HelpSupportScreen extends StatelessWidget {
         )..fetchData(),
         child: BlocBuilder<HelpSupportCubit, HelpSupportState>(
           builder: (context, state) {
-            if (state is HelpSupportLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
             if (state is HelpSupportError) {
               return Center(child: Text(state.message));
             }

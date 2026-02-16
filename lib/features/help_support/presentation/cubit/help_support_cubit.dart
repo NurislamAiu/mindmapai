@@ -9,7 +9,6 @@ class HelpSupportCubit extends Cubit<HelpSupportState> {
 
   Future<void> fetchData() async {
     try {
-      emit(HelpSupportLoading());
       final data = await getHelpSupportData();
       emit(HelpSupportLoaded(data: data));
     } catch (e) {
