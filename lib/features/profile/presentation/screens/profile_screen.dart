@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart'; //
+import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:mindmapai/features/profile/domain/usecases/get_user_usecase.dart';
 import 'package:mindmapai/features/profile/domain/usecases/sign_out_usecase.dart';
@@ -32,6 +32,44 @@ class ProfileScreen extends StatelessWidget {
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
+
+  Future<void> _showSignOutConfirmationDialog(BuildContext context) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
+          icon: const Icon(Icons.logout_rounded, size: 24),
+          title: const Text('Confirm Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actionsAlignment: MainAxisAlignment.end,
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+            ),
+            FilledButton.tonal(
+               style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+              child: const Text('Sign Out'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && context.mounted) {
+      await context.read<ProfileCubit>().signOut();
+      context.go('/auth');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +128,7 @@ class ProfileView extends StatelessWidget {
                           ProfileMenuItem(
                             icon: Icons.logout_rounded,
                             title: 'Sign Out',
-                            onTap: () => context.read<ProfileCubit>().signOut(),
+                            onTap: () => _showSignOutConfirmationDialog(context),
                             isSignOut: true,
                           ),
                           const SizedBox(height: 24.0),

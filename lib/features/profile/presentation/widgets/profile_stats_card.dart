@@ -12,13 +12,13 @@ class ProfileStatsCard extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(28.0),
+        borderRadius: BorderRadius.circular(24.0), // Consistent radius
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFE8E8E8).withOpacity(0.7),
-            blurRadius: 30,
-            spreadRadius: -10,
-            offset: const Offset(0, 10),
+            color: Colors.black.withOpacity(0.05), // Consistent shadow
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -35,7 +35,6 @@ class ProfileStatsCard extends StatelessWidget {
               ),
             ),
           ),
-
           Row(
             children: [
               Expanded(
@@ -82,53 +81,36 @@ class _StatItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            color.shade50.withOpacity(0.4),
-            color.shade100.withOpacity(0.5),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        // Simplified background
+        color: color.shade50.withOpacity(0.7),
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: Colors.white, width: 1.5),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // New icon style to match other cards
           Container(
-            width: 48,
-            height: 48,
+            padding: const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-              color: color.shade500,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: color.shade200.withOpacity(0.8),
-                  blurRadius: 12,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16.0),
             ),
-            child: Icon(icon, size: 24, color: Colors.white),
+            child: Icon(icon, size: 24, color: color),
           ),
           const SizedBox(height: 16),
-
           Text(
             value,
             style: textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: color.shade900,
-              letterSpacing: -1,
             ),
           ),
           const SizedBox(height: 4),
-
           Text(
             label,
             textAlign: TextAlign.center,
             style: textTheme.bodyMedium?.copyWith(
-              color: color.shade800.withOpacity(0.9),
+              color: color.shade700,
             ),
           ),
         ],
