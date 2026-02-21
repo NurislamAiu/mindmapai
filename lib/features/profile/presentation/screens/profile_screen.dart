@@ -87,8 +87,10 @@ class ProfileView extends StatelessWidget {
             if (state is ProfileLoaded) {
               return SafeArea(
                 child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 16.0,
+                  ),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 500),
@@ -124,7 +126,8 @@ class ProfileView extends StatelessWidget {
                           ProfileMenuItem(
                             icon: Icons.logout_rounded,
                             title: 'Sign Out',
-                            onTap: () => _showSignOutConfirmationDialog(context),
+                            onTap: () =>
+                                _showSignOutConfirmationDialog(context),
                             isSignOut: true,
                           ),
                           const SizedBox(height: 24.0),
