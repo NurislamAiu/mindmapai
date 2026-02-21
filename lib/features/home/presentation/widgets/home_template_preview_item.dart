@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 
-/// A full-width, tappable card that previews a single template.
 class HomeTemplatePreviewItem extends StatelessWidget {
   final TemplatePreview template;
 
-  const HomeTemplatePreviewItem({super.key, required this.template});
+  const HomeTemplatePreviewItem({
+    super.key,
+    required this.template,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,6 @@ class HomeTemplatePreviewItem extends StatelessWidget {
     );
   }
 
-  /// Builds the leading icon with a consistent style.
   Widget _buildIcon() {
     return Container(
       width: 44,
@@ -50,7 +51,6 @@ class HomeTemplatePreviewItem extends StatelessWidget {
     );
   }
 
-  /// Builds the main text content (title and subtitle).
   Widget _buildTextContent() {
     return Expanded(
       child: Column(
@@ -61,7 +61,7 @@ class HomeTemplatePreviewItem extends StatelessWidget {
             template.title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937),
+              color: const Color(0xFF1F2937),
               fontSize: 16,
             ),
           ),

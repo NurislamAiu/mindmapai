@@ -1,10 +1,7 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-/// The primary call-to-action card for a new user.
-///
-/// This widget is designed to be the focal point of the new user screen,
-/// with a vibrant design and a clear, singular action.
 class HomeEmptyState extends StatefulWidget {
   const HomeEmptyState({super.key});
 
@@ -12,8 +9,30 @@ class HomeEmptyState extends StatefulWidget {
   State<HomeEmptyState> createState() => _HomeEmptyStateState();
 }
 
-class _HomeEmptyStateState extends State<HomeEmptyState> {
+class _HomeEmptyStateState extends State<HomeEmptyState>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _shineController;
   bool _isHovered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _shineController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _shineController.dispose();
+    super.dispose();
+  }
+  
+  void _handleTap() {
+    // TODO: Replace with navigation logic
+    debugPrint('Navigate to Analyze Screen');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,100 +40,124 @@ class _HomeEmptyStateState extends State<HomeEmptyState> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
-        onTap: () {
-          // TODO: Navigate to analyze screen
-        },
+        onTap: _handleTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           transform: Matrix4.translationValues(0, _isHovered ? -5 : 0, 0),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28.0),
+            borderRadius: BorderRadius.circular(24.0),
             gradient: const LinearGradient(
-              colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+              colors: [Color(0xFF5B21B6), Color(0xFF4C1D95)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? const Color(0xFF6366F1).withOpacity(0.5)
-                    : const Color(0xFF6366F1).withOpacity(0.3),
+                    ? const Color(0xFF5B21B6).withOpacity(0.6)
+                    : const Color(0xFF5B21B6).withOpacity(0.4),
                 blurRadius: _isHovered ? 20 : 12,
                 offset: const Offset(0, 8),
               )
             ],
           ),
-          child: Column(
+          child: Stack(
             children: [
-              _buildIcon(),
-              const SizedBox(height: 16),
-              _buildTextContent(),
-              const SizedBox(height: 24),
-              _buildActionButton(),
+              // The animated shine effect
+              Positioned.fill(
+                child: AnimatedBuilder(
+                  animation: _shineController,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(
+                        -200 + (_shineController.value * 500),
+                        -100,
+                      ),
+                      child: Transform.rotate(
+                        angle: -math.pi / 5,
+                        child: Container(
+                          width: 100,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.0),
+                                Colors.white.withOpacity(0.12),
+                                Colors.white.withOpacity(0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // The original content
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white.withOpacity(0.15)),
+                      ),
+                      child: const Icon(
+                        Iconsax.magic_star,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'No ideas yet?',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Start by analyzing your first idea or use a template to get inspired!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white.withOpacity(0.8),
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _handleTap,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF4C1D95),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                      child: const Text(
+                        'Get Started',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  /// Builds the central icon with a glassmorphism effect.
-  Widget _buildIcon() {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
-      ),
-      child: const Icon(Iconsax.magic_star, color: Colors.white, size: 28),
-    );
-  }
-
-  /// Builds the main title and subtitle with high-contrast white text.
-  Widget _buildTextContent() {
-    return Column(
-      children: [
-        Text(
-          'Ready to Start Thinking?',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Transform your ideas into structured insights with AI-powered analysis.',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Colors.white.withOpacity(0.9),
-                height: 1.5,
-              ),
-        ),
-      ],
-    );
-  }
-
-  /// Builds the call-to-action button with a modern, clean style.
-  Widget _buildActionButton() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF4F46E5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      child: const Text('Analyze Your First Idea'),
     );
   }
 }
