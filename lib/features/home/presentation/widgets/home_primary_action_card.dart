@@ -31,9 +31,6 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
 
   @override
   Widget build(BuildContext context) {
-    final baseColor = Colors.deepPurple;
-    final textTheme = Theme.of(context).textTheme;
-
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -42,22 +39,21 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
           // TODO: Navigate to analyze screen
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 200),
           transform: Matrix4.translationValues(0, _isHovered ? -5 : 0, 0),
           clipBehavior: Clip.antiAlias,
-          padding: const EdgeInsets.all(24.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28.0),
-            gradient: LinearGradient(
-              colors: [baseColor.shade400, baseColor.shade600],
+            borderRadius: BorderRadius.circular(24.0),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF5B21B6), Color(0xFF4C1D95)], // Darker violet
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? baseColor.shade200.withOpacity(0.6)
-                    : baseColor.shade200.withOpacity(0.4),
+                    ? const Color(0xFF5B21B6).withOpacity(0.6)
+                    : const Color(0xFF5B21B6).withOpacity(0.4),
                 blurRadius: _isHovered ? 20 : 12,
                 offset: const Offset(0, 8),
               )
@@ -72,19 +68,19 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
                   builder: (context, child) {
                     return Transform.translate(
                       offset: Offset(
-                        -300 + (_shineController.value * 800),
+                        -200 + (_shineController.value * 500),
                         -100,
                       ),
                       child: Transform.rotate(
-                        angle: -math.pi / 4,
+                        angle: -math.pi / 5,
                         child: Container(
-                          width: 150,
-                          height: 400,
+                          width: 100,
+                          height: 300,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
                                 Colors.white.withOpacity(0.0),
-                                Colors.white.withOpacity(0.15),
+                                Colors.white.withOpacity(0.12),
                                 Colors.white.withOpacity(0.0),
                               ],
                             ),
@@ -96,74 +92,16 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
                 ),
               ),
               // The content of the card
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header section
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        child: const Icon(Iconsax.magic_star, color: Colors.white, size: 28),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Analyze a new idea',
-                              style: textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Transform your thoughts into clarity',
-                              style: textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white.withOpacity(0.9)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24.0),
-
-                  // Bullet points section
-                  _buildBulletPoint(textTheme, 'AI analysis', 'Visual mind map'),
-                  const SizedBox(height: 10),
-                  _buildBulletPoint(textTheme, 'Clear next steps'),
-
-                  const SizedBox(height: 24.0),
-
-                  // Footer section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Iconsax.clock, color: Colors.white70, size: 16),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Takes ~30 seconds',
-                            style: textTheme.bodyMedium
-                                ?.copyWith(color: Colors.white70),
-                          ),
-                        ],
-                      ),
-                      const Icon(Iconsax.arrow_right_3, color: Colors.white),
-                    ],
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                child: Row(
+                  children: [
+                    _buildIcon(),
+                    const SizedBox(width: 16),
+                    _buildTextContent(),
+                    const Icon(Iconsax.arrow_right_3, color: Colors.white70),
+                  ],
+                ),
               ),
             ],
           ),
@@ -172,19 +110,44 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
     );
   }
 
-  Widget _buildBulletPoint(TextTheme textTheme, String text1, [String? text2]) {
-    return Row(
-      children: [
-        const Text('•', style: TextStyle(color: Colors.white70, fontSize: 18)),
-        const SizedBox(width: 12),
-        Text(text1, style: textTheme.bodyMedium?.copyWith(color: Colors.white, letterSpacing: 0.5)),
-        if (text2 != null) ...[
-          const SizedBox(width: 16),
-          const Text('•', style: TextStyle(color: Colors.white70, fontSize: 18)),
-          const SizedBox(width: 12),
-          Text(text2, style: textTheme.bodyMedium?.copyWith(color: Colors.white, letterSpacing: 0.5)),
-        ]
-      ],
+  /// Builds the leading icon with a glassmorphism effect.
+  Widget _buildIcon() {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(14.0),
+        border: Border.all(color: Colors.white.withOpacity(0.15)),
+      ),
+      child: const Icon(Iconsax.magic_star, color: Colors.white, size: 24),
+    );
+  }
+
+  /// Builds the text content with high-contrast white text.
+  Widget _buildTextContent() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Analyze a new idea',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Transform your thoughts into clarity',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white.withOpacity(0.8),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

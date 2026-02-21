@@ -40,6 +40,18 @@ class HomeScreen extends StatelessWidget {
     const creditsRemaining = 2;
     const hasIdeas = true;
 
+    final focusData = hasIdeas
+        ? ContinueFocusData(
+            ideaTitle: 'Product roadmap planning',
+            timeSince: '3 days ago',
+            progress: 0.65,
+          )
+        : RecommendedFocusData(
+            title: 'Recommended next step',
+            subtitle:
+                'Try analyzing your first idea to see how AI can help structure your thinking.',
+          );
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -55,7 +67,8 @@ class HomeScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 500),
@@ -63,9 +76,16 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    const Text(
-                      'Welcome back',
-                      style: TextStyle(fontSize: 24, color: Color(0xFF111827)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Welcome back',
+                          style: TextStyle(fontSize: 24, color: Color(0xFF111827)),
+                        ),
+                        HomeCreditsIndicator(creditCount: creditsRemaining),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -88,9 +108,15 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     const HomePrimaryActionCard(),
                     const SizedBox(height: 16),
-                    const HomeStatusCard(),
+                    const HomeStatusCard(
+                      status: StatusInfo(
+                        title: 'Startup Readiness',
+                        percentage: 62,
+                        risk: RiskLevel.Medium,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    HomeFocusCard(hasIdeas: hasIdeas),
+                    HomeFocusCard(data: focusData),
                     const SizedBox(height: 16),
                     const HomeQuickActionsRow(),
                     const SizedBox(height: 24),
@@ -99,10 +125,6 @@ class HomeScreen extends StatelessWidget {
                     else
                       const HomeEmptyState(),
                     const SizedBox(height: 24),
-                    const Center(
-                      child: HomeCreditsIndicator(creditCount: creditsRemaining),
-                    ),
-                    const SizedBox(height: 16),
                   ],
                 ),
               ),

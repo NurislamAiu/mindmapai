@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../domain/entities/idea.dart';
 
@@ -14,7 +13,6 @@ class HomeIdeaListItem extends StatefulWidget {
 
 class _HomeIdeaListItemState extends State<HomeIdeaListItem> with TickerProviderStateMixin {
   late final AnimationController _progressController;
-  late final AnimationController _pulseController;
   bool _isHovered = false;
 
   @override
@@ -24,21 +22,11 @@ class _HomeIdeaListItemState extends State<HomeIdeaListItem> with TickerProvider
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     )..forward();
-
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-
-    if (widget.idea.status == IdeaStatus.Analyzed) {
-      _pulseController.repeat();
-    }
   }
 
   @override
   void dispose() {
     _progressController.dispose();
-    _pulseController.dispose();
     super.dispose();
   }
 
@@ -144,10 +132,7 @@ class _HomeIdeaListItemState extends State<HomeIdeaListItem> with TickerProvider
                           ),
                         ),
                         const SizedBox(height: 16),
-                        _StatusPill(
-                          isAnalyzed: isAnalyzed,
-                          pulseController: _pulseController,
-                        ),
+                        _StatusPill(isAnalyzed: isAnalyzed),
                       ],
                     ),
                   ),
@@ -163,9 +148,8 @@ class _HomeIdeaListItemState extends State<HomeIdeaListItem> with TickerProvider
 
 class _StatusPill extends StatelessWidget {
   final bool isAnalyzed;
-  final AnimationController pulseController;
 
-  const _StatusPill({required this.isAnalyzed, required this.pulseController});
+  const _StatusPill({required this.isAnalyzed});
 
   @override
   Widget build(BuildContext context) {
@@ -187,30 +171,13 @@ class _StatusPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedBuilder(
-            animation: pulseController,
-            builder: (context, child) {
-              final double size = isAnalyzed
-                  ? 6 + (math.sin(pulseController.value * math.pi * 2) * 2)
-                  : 6;
-              return Container(
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isAnalyzed ? const Color(0xFF6366F1) : Colors.grey.shade400,
-                  boxShadow: isAnalyzed
-                      ? [
-                          BoxShadow(
-                            color: const Color(0xFF6366F1)
-                                .withOpacity(0.5 * (1 - pulseController.value)),
-                            spreadRadius: size,
-                          )
-                        ]
-                      : [],
-                ),
-              );
-            },
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isAnalyzed ? const Color(0xFF6366F1) : Colors.grey.shade400,
+            ),
           ),
           const SizedBox(width: 8),
           Text(
