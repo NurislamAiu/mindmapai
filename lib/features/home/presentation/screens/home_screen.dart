@@ -9,7 +9,6 @@ import 'package:mindmapai/features/home/presentation/widgets/home_quick_actions_
 import 'package:mindmapai/features/home/presentation/widgets/home_subtitle.dart';
 import 'package:mindmapai/features/home/presentation/widgets/new_user_content.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -18,28 +17,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
-    // --- SIMULATING A NEW USER ---
-    final List<Idea> recentIdeas = [];
+    // --- SIMULATING AN EXISTING USER ---
+    final List<Idea> recentIdeas = [
+      Idea(
+        id: 1,
+        title: 'My Great Startup Idea',
+        summary: 'A new way to connect people.',
+        date: '1d ago',
+        status: IdeaStatus.Analyzed,
+      ),
+      Idea(
+        id: 2,
+        title: 'A new concept for an app',
+        summary: 'Revolutionizing the way we learn.',
+        date: '3d ago',
+        status: IdeaStatus.Draft,
+      ),
+    ];
     const creditsRemaining = 2;
-    const hasIdeas = false; // Set to `true` to see the existing user view
+    const hasIdeas = true; // Set to `false` to see the new user view
 
     // --- MOCK DATA FOR TEMPLATE PREVIEWS ---
     final popularTemplates = [
       const TemplatePreview(
-          title: 'Business Plan',
-          subtitle: 'Structure your startup idea',
-          icon: Iconsax.briefcase),
+        title: 'Business Plan',
+        subtitle: 'Structure your startup idea',
+        icon: Iconsax.briefcase,
+      ),
       const TemplatePreview(
-          title: 'Marketing Strategy',
-          subtitle: 'Outline your growth plan',
-          icon: Iconsax.volume_high),
+        title: 'Marketing Strategy',
+        subtitle: 'Outline your growth plan',
+        icon: Iconsax.volume_high,
+      ),
       const TemplatePreview(
-          title: 'Essay Outline',
-          subtitle: 'Organize your arguments',
-          icon: Iconsax.document_text),
+        title: 'Essay Outline',
+        subtitle: 'Organize your arguments',
+        icon: Iconsax.document_text,
+      ),
     ];
 
     final focusData = hasIdeas
@@ -58,19 +74,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFF8FAFC),
-              Color(0x33F5F3FF),
-              Colors.white,
-            ],
+            colors: [Color(0xFFF8FAFC), Color(0x33F5F3FF), Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 500),
@@ -83,9 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     const HomeSubtitle(),
                     const SizedBox(height: 24),
 
-                    // --- DYNAMIC CONTENT ---
                     if (hasIdeas)
-                      ExistingUserContent(focusData: focusData, recentIdeas: recentIdeas)
+                      ExistingUserContent(
+                        focusData: focusData,
+                        recentIdeas: recentIdeas,
+                      )
                     else
                       NewUserContent(templates: popularTemplates),
 

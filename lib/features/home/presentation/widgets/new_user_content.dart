@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import 'package:mindmapai/features/home/presentation/widgets/home_empty_state.dart';
 import 'package:mindmapai/features/home/presentation/widgets/home_page_indicator.dart';
+import 'package:mindmapai/features/home/presentation/widgets/home_showcase_section.dart';
 import 'package:mindmapai/features/home/presentation/widgets/home_template_preview_item.dart';
 import 'package:mindmapai/features/home/presentation/widgets/templates_explainer_sheet.dart';
 
@@ -29,7 +30,7 @@ class _NewUserContentState extends State<NewUserContent> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      useSafeArea: true, // This will handle the navigation bar automatically
+      useSafeArea: true,
       builder: (context) => const TemplatesExplainerSheet(),
     );
   }
@@ -41,12 +42,15 @@ class _NewUserContentState extends State<NewUserContent> {
       children: [
         const HomeEmptyState(),
         const SizedBox(height: 24),
-        const Text(
-          'Start with a Template',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF111827),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(
+            'Start with a Template',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF111827),
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -89,6 +93,8 @@ class _NewUserContentState extends State<NewUserContent> {
           pageCount: widget.templates.length,
           currentPage: _currentPage,
         ),
+        const SizedBox(height: 24),
+        const HomeShowcaseSection(),
       ],
     );
   }
