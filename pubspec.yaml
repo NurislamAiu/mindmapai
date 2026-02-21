@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   iconsax: ^0.0.8
   image_picker: ^1.2.1
+  shimmer: ^3.0.0
 
 
 dev_dependencies:

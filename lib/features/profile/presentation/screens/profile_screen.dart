@@ -11,6 +11,7 @@ import 'package:mindmapai/features/profile/presentation/cubit/profile_state.dart
 import 'package:mindmapai/features/profile/presentation/widgets/profile_card.dart';
 import 'package:mindmapai/features/profile/presentation/widgets/profile_header.dart';
 import 'package:mindmapai/features/profile/presentation/widgets/profile_menu_item.dart';
+import 'package:mindmapai/features/profile/presentation/widgets/profile_shimmer.dart';
 import 'package:mindmapai/features/profile/presentation/widgets/profile_stats_card.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // This is a simplified DI. In a real app, use get_it or provider.
     final profileRepository = ProfileRepositoryImpl();
-    
+
     return BlocProvider(
       create: (context) => ProfileCubit(
         getUserUseCase: GetUserUseCase(profileRepository),
@@ -78,7 +79,7 @@ class ProfileView extends StatelessWidget {
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             if (state is ProfileLoading || state is ProfileInitial) {
-              return const Center(child: CircularProgressIndicator());
+              return const ProfileShimmer();
             }
             if (state is ProfileError) {
               return Center(child: Text(state.message));
@@ -86,7 +87,8 @@ class ProfileView extends StatelessWidget {
             if (state is ProfileLoaded) {
               return SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 500),
@@ -101,8 +103,7 @@ class ProfileView extends StatelessWidget {
                             icon: Icons.star_border_rounded,
                             title: 'Upgrade to Pro',
                             subtitle: 'Unlock unlimited AI analyses',
-
-                            onTap: () => context.push('/upgrade'), 
+                            onTap: () => context.push('/upgrade'),
                             isUpgrade: true,
                           ),
                           const SizedBox(height: 8.0),
