@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,27 +35,21 @@ class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   Future<void> _showSignOutConfirmationDialog(BuildContext context) async {
-    final bool? confirmed = await showDialog<bool>(
+    final bool? confirmed = await showCupertinoDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
-          icon: const Icon(Icons.logout_rounded, size: 24),
+        return CupertinoAlertDialog(
           title: const Text('Confirm Sign Out'),
           content: const Text('Are you sure you want to sign out?'),
-          actionsAlignment: MainAxisAlignment.end,
-          actions: <Widget>[
-            TextButton(
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
               child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(dialogContext).pop(false);
               },
             ),
-            FilledButton.tonal(
-               style: FilledButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
-              ),
+            CupertinoDialogAction(
+              isDestructiveAction: true,
               child: const Text('Sign Out'),
               onPressed: () {
                 Navigator.of(dialogContext).pop(true);
