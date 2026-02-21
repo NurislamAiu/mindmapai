@@ -99,17 +99,15 @@ class _HomeFocusCardState extends State<HomeFocusCard>
 
   BoxDecoration _buildCardDecoration() {
     return BoxDecoration(
-      gradient: const LinearGradient(
-        colors: [Color(0xFFF5F3FF), Color(0xFFEDE9FE)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(20.0),
-      border: Border.all(color: const Color(0x99D1C4E9)),
+      border: Border.all(color: const Color(0xFFE5E7EB)),
       boxShadow: [
         BoxShadow(
-          color: _isHovered ? const Color(0x227C3AED) : const Color(0x117C3AED),
-          blurRadius: _isHovered ? 20 : 10,
+          color: _isHovered
+              ? const Color(0xFF1F2937).withOpacity(0.08)
+              : const Color(0xFF1F2937).withOpacity(0.05),
+          blurRadius: _isHovered ? 15 : 10,
           offset: Offset(0, _isHovered ? 6 : 4),
         )
       ],
@@ -119,82 +117,49 @@ class _HomeFocusCardState extends State<HomeFocusCard>
   // --- Content Builders ---
 
   Widget _buildContinueContent(ContinueFocusData data) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTopAccentBar(),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              const _CardIcon(icon: Iconsax.lamp),
-              const SizedBox(width: 16),
-              _buildContinueInfoColumn(data),
-              const SizedBox(width: 12),
-              Icon(Iconsax.arrow_right_3, color: Colors.grey[500]),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRecommendedContent(RecommendedFocusData data) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          const _CardIcon(icon: Iconsax.magic_star),
-          const SizedBox(width: 16),
-          _buildRecommendedInfoColumn(data),
-        ],
-      ),
-    );
-  }
-
-  // --- Sub-component Builders ---
-
-  Widget _buildTopAccentBar() {
-    return Container(
-      height: 2.5,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]),
-      ),
-    );
-  }
-
-  Widget _buildContinueInfoColumn(ContinueFocusData data) {
-    return Expanded(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Continue where you left off',
+            'Continue',
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Color(0xFF111827),
               fontSize: 16,
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 8),
           Text(
-            '${data.ideaTitle} • Started ${data.timeSince}',
-            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+            data.ideaTitle,
+            style: const TextStyle(
+                fontSize: 14,
+                color: Color(0xFF4F46E5),
+                fontWeight: FontWeight.w500),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           _AnimatedProgressBar(animation: _progressController),
+          const SizedBox(height: 8),
+          Text(
+            'Edited ${data.timeSince}',
+            style: TextStyle(color: Colors.grey[500], fontSize: 12),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildRecommendedInfoColumn(RecommendedFocusData data) {
-    return Expanded(
+  Widget _buildRecommendedContent(RecommendedFocusData data) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const _CardIcon(icon: Iconsax.magic_star),
+          const SizedBox(height: 12),
           Text(
             data.title,
             style: const TextStyle(
@@ -206,7 +171,8 @@ class _HomeFocusCardState extends State<HomeFocusCard>
           const SizedBox(height: 4),
           Text(
             data.subtitle,
-            style: TextStyle(color: Colors.grey[600], fontSize: 14, height: 1.4),
+            style: TextStyle(
+                color: Colors.grey[600], fontSize: 14, height: 1.4),
           ),
         ],
       ),
@@ -228,8 +194,8 @@ class _AnimatedProgressBar extends AnimatedWidget {
       child: LinearProgressIndicator(
         value: animation.value,
         minHeight: 6,
-        backgroundColor: Colors.white.withOpacity(0.7),
-        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+        backgroundColor: const Color(0xFFE5E7EB),
+        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4F46E5)),
       ),
     );
   }
@@ -246,18 +212,10 @@ class _CardIcon extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
+        color: const Color(0xFFEEF2FF),
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFEDE9FE)),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, 1),
-            blurRadius: 2,
-          ),
-        ],
       ),
-      child: Icon(icon, color: const Color(0xFF7C3AED), size: 20),
+      child: Icon(icon, color: const Color(0xFF4F46E5), size: 20),
     );
   }
 }

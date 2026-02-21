@@ -1,44 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/features/home/domain/entities/idea.dart';
-import 'package:mindmapai/features/home/presentation/widgets/home_credits_indicator.dart';
-import 'package:mindmapai/features/home/presentation/widgets/home_empty_state.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
+import 'package:mindmapai/features/home/presentation/widgets/existing_user_content.dart';
 import 'package:mindmapai/features/home/presentation/widgets/home_focus_card.dart';
-import 'package:mindmapai/features/home/presentation/widgets/home_primary_action_card.dart';
+import 'package:mindmapai/features/home/presentation/widgets/home_header.dart';
 import 'package:mindmapai/features/home/presentation/widgets/home_quick_actions_row.dart';
-import 'package:mindmapai/features/home/presentation/widgets/home_recent_ideas_section.dart';
-import 'package:mindmapai/features/home/presentation/widgets/home_status_card.dart';
+import 'package:mindmapai/features/home/presentation/widgets/home_subtitle.dart';
+import 'package:mindmapai/features/home/presentation/widgets/new_user_content.dart';
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
   Widget build(BuildContext context) {
-    // This data would typically come from a state management solution
-    final recentIdeas = [
-      Idea(
-        id: 1,
-        title: 'Mobile app redesign',
-        summary: 'Exploring user-centered design principles for better engagement',
-        date: '2 hours ago',
-        status: IdeaStatus.Analyzed,
-      ),
-      Idea(
-        id: 2,
-        title: 'Q1 marketing strategy',
-        summary: 'Breaking down channels, budget allocation, and timeline',
-        date: 'Yesterday',
-        status: IdeaStatus.Analyzed,
-      ),
-      Idea(
-        id: 3,
-        title: 'Product roadmap planning',
-        summary: 'Feature prioritization and development phases',
-        date: '3 days ago',
-        status: IdeaStatus.Draft,
-      ),
-    ];
+    // --- SIMULATING A NEW USER ---
+    final List<Idea> recentIdeas = [];
     const creditsRemaining = 2;
-    const hasIdeas = true;
+    const hasIdeas = false; // Set to `true` to see the existing user view
+
+    // --- MOCK DATA FOR TEMPLATE PREVIEWS ---
+    final popularTemplates = [
+      const TemplatePreview(
+          title: 'Business Plan',
+          subtitle: 'Structure your startup idea',
+          icon: Iconsax.briefcase),
+      const TemplatePreview(
+          title: 'Marketing Strategy',
+          subtitle: 'Outline your growth plan',
+          icon: Iconsax.volume_high),
+      const TemplatePreview(
+          title: 'Essay Outline',
+          subtitle: 'Organize your arguments',
+          icon: Iconsax.document_text),
+    ];
 
     final focusData = hasIdeas
         ? ContinueFocusData(
@@ -76,54 +78,17 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Welcome back',
-                          style: TextStyle(fontSize: 24, color: Color(0xFF111827)),
-                        ),
-                        HomeCreditsIndicator(creditCount: creditsRemaining),
-                      ],
-                    ),
+                    HomeHeader(creditsRemaining: creditsRemaining),
                     const SizedBox(height: 8),
-                    Text(
-                      'What would you like to think through today?',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      '3 ideas analyzed this week',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF4F46E5),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    const HomeSubtitle(),
                     const SizedBox(height: 24),
-                    const HomePrimaryActionCard(),
-                    const SizedBox(height: 16),
-                    const HomeStatusCard(
-                      status: StatusInfo(
-                        title: 'Startup Readiness',
-                        percentage: 62,
-                        risk: RiskLevel.Medium,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    HomeFocusCard(data: focusData),
-                    const SizedBox(height: 16),
-                    const HomeQuickActionsRow(),
-                    const SizedBox(height: 24),
+
+                    // --- DYNAMIC CONTENT ---
                     if (hasIdeas)
-                      HomeRecentIdeasSection(ideas: recentIdeas)
+                      ExistingUserContent(focusData: focusData, recentIdeas: recentIdeas)
                     else
-                      const HomeEmptyState(),
+                      NewUserContent(templates: popularTemplates),
+
                     const SizedBox(height: 24),
                   ],
                 ),
