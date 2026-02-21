@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../home/presentation/screens/home_screen.dart'; // For Provider
+import 'package:mindmapai/common/widgets/provider_helpers.dart';
 import '../../data/repositories/explore_repository_impl.dart';
 import '../../domain/usecases/get_explore_data.dart';
 import '../providers/explore_provider.dart';

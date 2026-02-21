@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mindmapai/common/widgets/provider_helpers.dart';
 import '../../../home/data/repositories/home_repository_impl.dart';
 import '../../../home/domain/usecases/get_all_ideas.dart';
-import '../../../home/presentation/screens/home_screen.dart'; // For Provider
 import '../../../home/presentation/widgets/home_idea_list_item.dart';
 import '../providers/ideas_provider.dart';
 
@@ -58,7 +58,10 @@ class IdeasScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return IdeaListItem(idea: provider.filteredIdeas[index]);
+                          return HomeIdeaListItem(
+                            idea: provider.filteredIdeas[index],
+                            index: index,
+                          );
                         },
                         separatorBuilder: (context, index) => const SizedBox(height: 10.0),
                       ),
