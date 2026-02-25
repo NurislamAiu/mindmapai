@@ -44,7 +44,7 @@ class SettingsView extends StatelessWidget {
                   Text(
                     'Manage your account and preferences',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.grey.shade600,
+                          color: Colors.black,
                           fontWeight: FontWeight.w300,
                         ),
                   ).animate().fadeIn(duration: 500.ms),

@@ -59,7 +59,7 @@ class SettingItem extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(icon, color: color ?? Colors.grey.shade600, size: 20),
+              child: Icon(icon, color: color ?? Colors.black, size: 20),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -68,7 +68,7 @@ class SettingItem extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge
-                    ?.copyWith(color: color, fontWeight: FontWeight.w400),
+                    ?.copyWith(color: color ?? Colors.black, fontWeight: FontWeight.w400),
               ),
             ),
             if (value != null)
@@ -79,10 +79,10 @@ class SettingItem extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
-                      ?.copyWith(color: Colors.grey.shade500, fontWeight: FontWeight.w300),
+                      ?.copyWith(color: Colors.black, fontWeight: FontWeight.w300),
                 ),
               ),
-            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey.shade400),
+            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
           ],
         ),
       ),

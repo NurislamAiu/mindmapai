@@ -16,7 +16,7 @@ class AppInfo extends StatelessWidget {
                     .bodyMedium
                     ?.copyWith(color: Colors.grey.shade500, fontWeight: FontWeight.w300)),
             const SizedBox(height: 4),
-            Text('© 2024 MindMapAI. All rights reserved.',
+            Text('© 2026 MindMapAI. All rights reserved.',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall

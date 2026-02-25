@@ -32,9 +32,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   void _handleContinue() {
     if (_nameController.text.trim().isNotEmpty) {
       // TODO: Save profile data
-      // Navigate to the main app screen (e.g., /home)
+      // Navigate to the welcome screen
       // Using 'go' here to clear the auth navigation stack
-      context.go('/home');
+      context.go('/welcome');
     }
   }
 

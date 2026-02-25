@@ -16,7 +16,7 @@ class SettingToggle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
         children: [
-          Icon(icon, color: Colors.grey.shade600, size: 22),
+          Icon(icon, color: Colors.black, size: 22),
           const SizedBox(width: 16),
           Expanded(
             child: Text(

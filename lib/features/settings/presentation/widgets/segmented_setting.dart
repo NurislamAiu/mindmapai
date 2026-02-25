@@ -27,7 +27,7 @@ class SegmentedSetting<T extends Object> extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: Colors.grey.shade600, size: 22),
+              Icon(icon, color: Colors.grey.shade900, size: 22),
               const SizedBox(width: 16),
               Expanded(
                 child: Text(

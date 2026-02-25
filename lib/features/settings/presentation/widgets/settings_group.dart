@@ -19,7 +19,7 @@ class SettingsGroup extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
-                  ?.copyWith(color: Colors.grey.shade700, fontWeight: FontWeight.bold),
+                  ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
