@@ -6,7 +6,9 @@ import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_s
 import 'package:mindmapai/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:mindmapai/features/contact_support/presentation/screens/contact_support_screen.dart';
+import 'package:mindmapai/features/explore/domain/entities/explore_template.dart';
 import 'package:mindmapai/features/feedback/presentation/screens/send_feedback_screen.dart';
+import 'package:mindmapai/features/guided_input/presentation/screens/guided_input_screen.dart';
 import 'package:mindmapai/features/help_support/presentation/screens/help_support_screen.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/report_problem/presentation/screens/report_problem_screen.dart';
@@ -86,6 +88,13 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/report-problem',
       builder: (context, state) => const ReportProblemScreen(),
+    ),
+    GoRoute(
+      path: '/guided-input',
+      builder: (context, state) {
+        final template = state.extra as Template?;
+        return GuidedInputScreen(template: template);
+      },
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

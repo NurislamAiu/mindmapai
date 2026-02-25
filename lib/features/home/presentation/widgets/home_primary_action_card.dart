@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomePrimaryActionCard extends StatefulWidget {
@@ -35,9 +36,7 @@ class _HomePrimaryActionCardState extends State<HomePrimaryActionCard>
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
-        onTap: () {
-          // TODO: Navigate to analyze screen
-        },
+        onTap: () => context.push('/guided-input'),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           transform: Matrix4.translationValues(0, _isHovered ? -5 : 0, 0),

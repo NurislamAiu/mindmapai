@@ -37,7 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
     const creditsRemaining = 2;
-    const hasIdeas = true; // Set to `false` to see the new user view
+    const hasIdeas = false; // Set to `false` to see the new user view
+    /// НАДО ПОРАБОТАТЬ ЕСЛИ ПОЛЬЗОВАТЕЛЬ НОВЫЙ
 
     // --- MOCK DATA FOR TEMPLATE PREVIEWS ---
     final popularTemplates = [

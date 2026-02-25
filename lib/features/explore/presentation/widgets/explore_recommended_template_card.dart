@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:go_router/go_router.dart';
 import '../../domain/entities/explore_template.dart';
 import 'explore_template_card_widgets.dart';
 
@@ -70,66 +71,72 @@ class _RecommendedTemplateCardState extends State<RecommendedTemplateCard>
               )
             ],
           ),
-          child: Stack(
-            children: [
-              // The animated shine effect
-              Positioned.fill(
-                child: AnimatedBuilder(
-                  animation: _shineController,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(
-                        -300 + (_shineController.value * 800),
-                        -100,
-                      ),
-                      child: Transform.rotate(
-                        angle: -math.pi / 4,
-                        child: Container(
-                          width: 150,
-                          height: 400,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withOpacity(0.0),
-                                Colors.white.withOpacity(0.15),
-                                Colors.white.withOpacity(0.0),
-                              ],
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => context.push('/guided-input', extra: widget.template),
+              child: Stack(
+                children: [
+                  // The animated shine effect
+                  Positioned.fill(
+                    child: AnimatedBuilder(
+                      animation: _shineController,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(
+                            -300 + (_shineController.value * 800),
+                            -100,
+                          ),
+                          child: Transform.rotate(
+                            angle: -math.pi / 4,
+                            child: Container(
+                              width: 150,
+                              height: 400,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.white.withOpacity(0.0),
+                                    Colors.white.withOpacity(0.15),
+                                    Colors.white.withOpacity(0.0),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              // The content of the card
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Using a custom header for white text
-                    _buildHeader(context, widget.template),
-                    const SizedBox(height: 16),
-                    TemplateBadges(template: widget.template, isRecommended: true),
-                    const SizedBox(height: 16),
-                    Text(
-                      widget.template.outcome,
-                      style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                        );
+                      },
                     ),
-                    const SizedBox(height: 12),
-                    if (widget.template.reason != null)
-                      Text(
-                        '"${widget.template.reason!}"',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: baseColor.shade200,
-                          fontStyle: FontStyle.italic,
+                  ),
+                  // The content of the card
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Using a custom header for white text
+                        _buildHeader(context, widget.template),
+                        const SizedBox(height: 16),
+                        TemplateBadges(template: widget.template, isRecommended: true),
+                        const SizedBox(height: 16),
+                        Text(
+                          widget.template.outcome,
+                          style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
                         ),
-                      ),
-                  ],
-                ),
+                        const SizedBox(height: 12),
+                        if (widget.template.reason != null)
+                          Text(
+                            '"${widget.template.reason!}"',
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: baseColor.shade200,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         )
       ],

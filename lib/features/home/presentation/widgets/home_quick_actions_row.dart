@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
 /// A row of quick action buttons for the home screen.
@@ -13,7 +14,7 @@ class HomeQuickActionsRow extends StatelessWidget {
           child: _QuickActionButton(
             icon: Iconsax.lamp,
             label: 'New idea',
-            onTap: () {},
+            onTap: () => context.push('/guided-input'),
           ),
         ),
         const SizedBox(width: 12.0),
@@ -21,7 +22,7 @@ class HomeQuickActionsRow extends StatelessWidget {
           child: _QuickActionButton(
             icon: Iconsax.document_text,
             label: 'Templates',
-            onTap: () {},
+            onTap: () => context.go('/explore'),
           ),
         ),
         const SizedBox(width: 12.0),

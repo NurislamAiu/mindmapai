@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/entities/explore_template.dart';
 import 'explore_template_card_widgets.dart';
 
@@ -27,7 +28,7 @@ class TemplateListItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () { /* TODO: Implement navigation */ },
+          onTap: () => context.push('/guided-input', extra: template),
           borderRadius: BorderRadius.circular(24.0),
           hoverColor: getTemplateColor(template.color).shade50.withOpacity(0.5),
           highlightColor: getTemplateColor(template.color).shade50,
