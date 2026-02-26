@@ -10,6 +10,7 @@ import 'package:mindmapai/features/explore/domain/entities/explore_template.dart
 import 'package:mindmapai/features/feedback/presentation/screens/send_feedback_screen.dart';
 import 'package:mindmapai/features/guided_input/presentation/screens/guided_input_screen.dart';
 import 'package:mindmapai/features/help_support/presentation/screens/help_support_screen.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/report_problem/presentation/screens/report_problem_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
@@ -92,7 +93,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/guided-input',
       builder: (context, state) {
-        final template = state.extra as Template?;
+        final template = state.extra as TemplatePreview?;
         return GuidedInputScreen(template: template);
       },
     ),

@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../explore/domain/entities/explore_template.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import 'guided_input_state.dart';
 
 class GuidedInputCubit extends Cubit<GuidedInputState> {
-  GuidedInputCubit({Template? template})
+  GuidedInputCubit({TemplatePreview? template})
       : super(GuidedInputState(
           template: template,
           idea: template?.title ?? '',

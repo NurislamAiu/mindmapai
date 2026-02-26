@@ -37,25 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
     const creditsRemaining = 2;
-    const hasIdeas = false; // Set to `false` to see the new user view
+    const hasIdeas = true; // Set to `false` to see the new user view
     /// НАДО ПОРАБОТАТЬ ЕСЛИ ПОЛЬЗОВАТЕЛЬ НОВЫЙ
 
     // --- MOCK DATA FOR TEMPLATE PREVIEWS ---
     final popularTemplates = [
       const TemplatePreview(
-        title: 'Business Plan',
-        subtitle: 'Structure your startup idea',
+        title: 'Business Strategy',
+        subtitle: 'Structure your business ideas with guided AI prompts',
         icon: Iconsax.briefcase,
       ),
       const TemplatePreview(
-        title: 'Marketing Strategy',
-        subtitle: 'Outline your growth plan',
-        icon: Iconsax.volume_high,
+        title: 'Learning Goals',
+        subtitle: 'Break down complex topics into learning paths',
+        icon: Iconsax.teacher,
       ),
       const TemplatePreview(
-        title: 'Essay Outline',
-        subtitle: 'Organize your arguments',
-        icon: Iconsax.document_text,
+        title: 'Project Planning',
+        subtitle: 'Map out project phases, tasks, and dependencies',
+        icon: Iconsax.flag,
       ),
     ];
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../explore/domain/entities/explore_template.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import '../cubit/guided_input_cubit.dart';
 import '../cubit/guided_input_state.dart';
 import '../widgets/ai_hint_widget.dart';
@@ -9,7 +9,7 @@ import '../widgets/guided_input_field.dart';
 
 
 class GuidedInputScreen extends StatelessWidget {
-  final Template? template;
+  final TemplatePreview? template;
   const GuidedInputScreen({super.key, this.template});
 
   @override

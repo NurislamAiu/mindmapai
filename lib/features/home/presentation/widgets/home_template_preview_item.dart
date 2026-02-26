@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 
@@ -17,11 +18,11 @@ class HomeTemplatePreviewItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(24.0),
       child: InkWell(
         onTap: () {
-          // TODO: Handle template selection
+          context.push('/guided-input', extra: template);
         },
         borderRadius: BorderRadius.circular(24.0),
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24.0),
             border: Border.all(color: const Color(0xFFF0F0F5)),

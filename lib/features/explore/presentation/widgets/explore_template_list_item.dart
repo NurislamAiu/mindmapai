@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import '../../domain/entities/explore_template.dart';
 import 'explore_template_card_widgets.dart';
 
@@ -28,7 +29,14 @@ class TemplateListItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => context.push('/guided-input', extra: template),
+          onTap: () {
+            final templatePreview = TemplatePreview(
+              title: template.title,
+              subtitle: template.description,
+              icon: template.icon,
+            );
+            context.push('/guided-input', extra: templatePreview);
+          },
           borderRadius: BorderRadius.circular(24.0),
           hoverColor: getTemplateColor(template.color).shade50.withOpacity(0.5),
           highlightColor: getTemplateColor(template.color).shade50,
@@ -39,18 +47,18 @@ class TemplateListItem extends StatelessWidget {
               children: [
                 // Header section остается таким же чистым
                 TemplateHeader(template: template, useLargeIcon: false),
-                
+
                 // 2. Добавляем изящный разделитель
                 Divider(
                   height: 32,
                   thickness: 1,
                   color: Colors.grey.shade100,
                 ),
-                
+
                 // Badges
                 TemplateBadges(template: template),
                 const SizedBox(height: 16),
-                
+
                 // Footer section
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

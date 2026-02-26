@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeEmptyState extends StatefulWidget {
@@ -30,8 +31,7 @@ class _HomeEmptyStateState extends State<HomeEmptyState>
   }
   
   void _handleTap() {
-    // TODO: Replace with navigation logic
-    debugPrint('Navigate to Analyze Screen');
+    context.push('/guided-input');
   }
 
   @override

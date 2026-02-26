@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:go_router/go_router.dart';
+import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import '../../domain/entities/explore_template.dart';
 import 'explore_template_card_widgets.dart';
 
@@ -74,7 +75,14 @@ class _RecommendedTemplateCardState extends State<RecommendedTemplateCard>
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => context.push('/guided-input', extra: widget.template),
+              onTap: () {
+                final templatePreview = TemplatePreview(
+                  title: widget.template.title,
+                  subtitle: widget.template.description,
+                  icon: widget.template.icon,
+                );
+                context.push('/guided-input', extra: templatePreview);
+              },
               child: Stack(
                 children: [
                   // The animated shine effect

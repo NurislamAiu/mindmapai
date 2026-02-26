@@ -93,7 +93,7 @@ class _NewUserContentState extends State<NewUserContent> {
           pageCount: widget.templates.length,
           currentPage: _currentPage,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
         const HomeShowcaseSection(),
       ],
     );
