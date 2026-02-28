@@ -28,21 +28,25 @@ class HelpSupportLocalDataSourceImpl implements HelpSupportLocalDataSource {
       icon: Iconsax.magicpen,
       title: "How AI credits work",
       description: "One credit equals one complete analysis",
+      fullContent: "Each AI analysis requires 1 credit. Credits are deducted when you generate a new mind map or refine an existing idea.\n\nUnused credits from your Pro subscription roll over to the next month. One-time credit pack purchases never expire. You can check your current balance in the profile section.",
     ),
     QuickHelpCard(
       icon: Iconsax.clock,
       title: "Understanding version history",
       description: "Track how your ideas evolve over time",
+      fullContent: "Every time you refine or update your mind map, a new version is automatically saved.\n\nYou can access all previous iterations in the version history panel. Restoring an older version simply makes it active—your newer work is also kept safe in history, so you never lose any progress.",
     ),
     QuickHelpCard(
       icon: Iconsax.refresh,
       title: "How refinement improves ideas",
       description: "Deepen your analysis with targeted improvements",
+      fullContent: "Refinement allows you to guide the AI to focus on specific aspects of your idea.\n\nBy adding prompts like 'make it more actionable' or 'focus on marketing', the AI will regenerate the mind map with new depth and perspective while keeping your core concept intact. Each refinement creates a new version.",
     ),
     QuickHelpCard(
       icon: Iconsax.crown,
       title: "Managing your subscription",
       description: "View, upgrade, or cancel your plan",
+      fullContent: "You can manage your Pro subscription directly from your device's app store settings.\n\nIf you choose to cancel, you will retain access to Pro features until the end of your current billing cycle. Your data and previous analyses will remain completely safe even if you switch to the free tier.",
     ),
   ];
 

@@ -63,7 +63,6 @@ class HelpSupportScreen extends StatelessWidget {
                         return QuickHelpCardWidget(card: state.data.quickHelpCards[index]);
                       },
                     ),
-                    const SizedBox(height: 32),
                     const _SectionHeader(title: 'Frequently Asked Questions'),
                     const SizedBox(height: 16),
                     FaqAccordion(faqItems: state.data.faqItems),
