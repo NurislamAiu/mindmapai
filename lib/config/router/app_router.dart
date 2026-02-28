@@ -13,7 +13,9 @@ import 'package:mindmapai/features/help_support/presentation/screens/help_suppor
 import 'package:mindmapai/features/home/domain/entities/template_preview.dart';
 import 'package:mindmapai/features/profile/presentation/screens/profile_screen.dart';
 import 'package:mindmapai/features/report_problem/presentation/screens/report_problem_screen.dart';
+import 'package:mindmapai/features/settings/presentation/screens/privacy_policy_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
+import 'package:mindmapai/features/settings/presentation/screens/terms_of_service_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
@@ -73,6 +75,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/privacy-policy',
+      builder: (context, state) => const PrivacyPolicyScreen(),
+    ),
+    GoRoute(
+      path: '/terms-of-service',
+      builder: (context, state) => const TermsOfServiceScreen(),
     ),
     GoRoute(
       path: '/help-support',

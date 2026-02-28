@@ -141,12 +141,12 @@ class SettingsView extends StatelessWidget {
                       SettingItem(
                         icon: Iconsax.shield_tick,
                         label: 'Privacy policy',
-                        onTap: () => showFeatureNotImplementedSnackBar(context, 'Privacy policy'),
+                        onTap: () => context.push('/privacy-policy'),
                       ),
                       SettingItem(
                         icon: Iconsax.document,
                         label: 'Terms of service',
-                        onTap: () => showFeatureNotImplementedSnackBar(context, 'Terms of service'),
+                        onTap: () => context.push('/terms-of-service'),
                       ),
                       SettingItem(
                         icon: Iconsax.user_remove,

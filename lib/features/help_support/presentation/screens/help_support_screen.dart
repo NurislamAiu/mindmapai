@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/common/widgets/common_app_bar.dart';
 import 'package:mindmapai/features/help_support/data/datasources/help_support_local_data_source.dart';
 import 'package:mindmapai/features/help_support/data/repositories/help_support_repository_impl.dart';
@@ -8,7 +10,7 @@ import 'package:mindmapai/features/help_support/presentation/cubit/help_support_
 import 'package:mindmapai/features/help_support/presentation/cubit/help_support_state.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/contact_button.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/faq_accordion.dart';
-import 'package:mindmapai/features/help_support/presentation/widgets/legal_button.dart';
+import 'package:mindmapai/features/help_support/presentation/widgets/help_support_item.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/quick_help_card_widget.dart';
 
 class HelpSupportScreen extends StatelessWidget {
@@ -33,9 +35,6 @@ class HelpSupportScreen extends StatelessWidget {
               return Center(child: Text(state.message));
             }
             if (state is HelpSupportLoaded) {
-              final legalButtons = state.data.legalItems
-                  .map((item) => LegalButton(item: item))
-                  .toList();
               return SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(
@@ -97,16 +96,17 @@ class HelpSupportScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          for (int i = 0; i < legalButtons.length; i++) ...[
-                            legalButtons[i],
-                            if (i < legalButtons.length - 1)
-                              Divider(
-                                height: 1,
-                                color: Colors.grey.shade100,
-                                indent: 16,
-                                endIndent: 16,
-                              ),
-                          ]
+                          HelpSupportItem(
+                            icon: Iconsax.shield_tick,
+                            title: 'Privacy Policy',
+                            path: '/privacy-policy',
+                          ),
+                          Divider(height: 1, color: Colors.grey.shade100, indent: 16, endIndent: 16),
+                          HelpSupportItem(
+                            icon: Iconsax.document,
+                            title: 'Terms of Service',
+                            path: '/terms-of-service',
+                          ),
                         ],
                       ),
                     ),
