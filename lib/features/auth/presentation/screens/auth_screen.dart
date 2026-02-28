@@ -56,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                   const Gap(32),
                   Text(
-                    'Welcome to MindMapAI',
+                    'Welcome to MINDRA',
                     textAlign: TextAlign.center,
                     style: textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,

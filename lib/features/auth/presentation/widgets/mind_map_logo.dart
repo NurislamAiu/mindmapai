@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MindMapLogo extends StatelessWidget {
   const MindMapLogo({super.key, this.size = 120.0});
@@ -8,8 +7,8 @@ class MindMapLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/icon/icon_svg.svg',
+    return Image.asset(
+      'assets/icon/icon.png',
       width: size,
       height: size,
     );

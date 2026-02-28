@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:go_router/go_router.dart';
 
-/// A chip-styled widget to display the remaining AI credit count.
-///
-/// It's designed to be noticeable and provides clear visual feedback
-/// on the number of credits a user has.
+
 class HomeCreditsIndicator extends StatelessWidget {
   final int creditCount;
 
@@ -16,7 +14,7 @@ class HomeCreditsIndicator extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          // TODO: Implement action on tap, e.g., open "buy credits" screen
+          context.push('/upgrade');
         },
         borderRadius: BorderRadius.circular(30.0),
         child: Container(

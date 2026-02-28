@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
                 curve: const Interval(0.4, 1.0, curve: Curves.easeOut),
               ),
               child: Text(
-                'MindMapAI',
+                'MINDRA',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Colors.grey[700],
                       fontWeight: FontWeight.w300,

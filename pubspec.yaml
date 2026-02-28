@@ -24,6 +24,9 @@ dependencies:
   iconsax: ^0.0.8
   image_picker: ^1.2.1
   shimmer: ^3.0.0
+  package_info_plus: ^9.0.0
+  http: ^1.2.2
+  flutter_markdown: ^0.7.3
 
 
 dev_dependencies:
@@ -49,7 +52,6 @@ flutter:
 
   assets:
     - assets/icon/icon.png
-    - assets/icon/icon_svg.svg
     - assets/icon/
 
   fonts:

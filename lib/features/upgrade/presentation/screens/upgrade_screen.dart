@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mindmapai/common/widgets/common_app_bar.dart';
 import 'package:mindmapai/features/upgrade/data/repositories/upgrade_repository_impl.dart';
 import 'package:mindmapai/features/upgrade/domain/usecases/get_credit_packs_usecase.dart';
@@ -54,6 +53,7 @@ class UpgradeView extends StatelessWidget {
               );
             }
             if (state is UpgradeLoaded) {
+              final packs = state.packs;
               return SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
                 child: Center(
@@ -62,24 +62,38 @@ class UpgradeView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const _Header(),
+                        AnimatedListItem(index: 0, child: const _Header()),
                         const SizedBox(height: 32),
-                        const CreditExplanationCard(),
+                        AnimatedListItem(index: 1, child: const CreditExplanationCard()),
                         const SizedBox(height: 32),
-                        const _SectionHeader(),
+                        AnimatedListItem(index: 2, child: const _SectionHeader()),
                         const SizedBox(height: 24),
-                        ...state.packs.map((pack) => Padding(
+                        ...packs.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final pack = entry.value;
+                          return AnimatedListItem(
+                            index: 3 + index,
+                            child: Padding(
                               padding: const EdgeInsets.only(bottom: 16.0),
                               child: CreditPackItem(
                                 pack: pack,
                                 isSelected: pack.id == state.selectedPack.id,
-                                onTap: () => context.read<UpgradeCubit>().selectPack(pack),
+                                onTap: () =>
+                                    context.read<UpgradeCubit>().selectPack(pack),
                               ),
-                            )),
+                            ),
+                          );
+                        }),
                         const SizedBox(height: 16),
-                        const UpgradeActionButtons(),
+                        AnimatedListItem(
+                          index: 3 + packs.length,
+                          child: const UpgradeActionButtons(),
+                        ),
                         const SizedBox(height: 24),
-                        const _TertiaryAction(),
+                        AnimatedListItem(
+                          index: 4 + packs.length,
+                          child: const _TertiaryAction(),
+                        ),
                       ],
                     ),
                   ),
@@ -102,14 +116,14 @@ class _Header extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
-        SvgPicture.asset(
-          'assets/icon/icon_svg.svg',
+        Image.asset(
+          'assets/icon/icon.png',
           height: 120,
           width: 120,
         ),
         const SizedBox(height: 24),
         Text(
-          'Go deeper with MindMapAI',
+          'Go deeper with MINDRA',
           textAlign: TextAlign.center,
           style: textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
@@ -165,6 +179,68 @@ class _TertiaryAction extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
         ),
+      ),
+    );
+  }
+}
+
+class AnimatedListItem extends StatefulWidget {
+  final Widget child;
+  final int index;
+
+  const AnimatedListItem({
+    super.key,
+    required this.child,
+    required this.index,
+  });
+
+  @override
+  State<AnimatedListItem> createState() => _AnimatedListItemState();
+}
+
+class _AnimatedListItemState extends State<AnimatedListItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    Future.delayed(Duration(milliseconds: widget.index * 100), () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: widget.child,
       ),
     );
   }

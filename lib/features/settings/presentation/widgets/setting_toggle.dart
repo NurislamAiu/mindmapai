@@ -22,7 +22,7 @@ class SettingToggle extends StatelessWidget {
             child: Text(
               label,
               style:
-                  Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w400),
+                  Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w400, color: Colors.black),
             ),
           ),
           CupertinoSwitch(

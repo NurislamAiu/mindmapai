@@ -74,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       OnboardingPage(
                         title: 'We turn ideas into clarity',
                         subtitle:
-                            'MindMapAI breaks your thoughts into clear, visual building blocks.',
+                            'MINDRA breaks your thoughts into clear, visual building blocks.',
                         visual:
                             OnboardingVisual2(isVisible: currentPageIndex == 1),
                         pageIndex: 1,

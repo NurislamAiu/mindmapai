@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
@@ -29,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 128,
                     width: 128,
-                    child: SvgPicture.asset('assets/icon/icon_svg.svg'),
+                    child: Image.asset('assets/icon/icon.png'),
                   )
                       .animate()
                       .fade(delay: 200.ms)

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/common/widgets/common_app_bar.dart';
 
@@ -11,7 +10,7 @@ class GoProScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7F5),
-      appBar: const CommonAppBar(title: 'MindMapAI Pro'),
+      appBar: const CommonAppBar(title: 'MINDRA Pro'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -55,11 +54,11 @@ class _ProCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SvgPicture.asset(
-            'assets/icon/icon_svg.svg',
+          Image.asset(
+            'assets/icon/icon.png',
             height: 80,
             width: 80,
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            color: Colors.white,
           ).animate().fadeIn(duration: 800.ms).scale(begin: const Offset(0.8, 0.8)),
           const SizedBox(height: 16),
           Text(

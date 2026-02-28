@@ -38,7 +38,7 @@ class CreditExplanationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MindMapAI works with AI credits',
+                  'MINDRA works with AI credits',
                   style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade800,
