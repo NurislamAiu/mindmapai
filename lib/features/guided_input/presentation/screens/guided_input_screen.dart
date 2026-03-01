@@ -42,12 +42,12 @@ class GuidedInputView extends StatelessWidget {
                     child: const Row(
                       children: [
                         Icon(Icons.arrow_back_ios_new_rounded,
-                            color: Color(0xFF717182), size: 18),
+                            color: Colors.black, size: 18),
                         SizedBox(width: 8),
                         Text(
                           'Back',
                           style: TextStyle(
-                              color: Color(0xFF717182),
+                              color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.w400),
                         ),
@@ -128,7 +128,10 @@ class GuidedInputView extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: state.isFormValid
-                        ? () => context.read<GuidedInputCubit>().generate()
+                        ? () {
+                            context.read<GuidedInputCubit>().generate();
+                            context.push('/ai-loading');
+                          }
                         : null,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),

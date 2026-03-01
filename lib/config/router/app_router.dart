@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mindmapai/features/ai_loading/presentation/screens/ai_loading_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/auth_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/check_email_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_screen.dart';
@@ -32,7 +33,7 @@ import '../../features/splash/presentation/screens/splash_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/result',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -128,6 +129,10 @@ final appRouter = GoRouter(
         final template = state.extra as TemplatePreview?;
         return GuidedInputScreen(template: template);
       },
+    ),
+    GoRoute(
+      path: '/ai-loading',
+      builder: (context, state) => const AiLoadingScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
