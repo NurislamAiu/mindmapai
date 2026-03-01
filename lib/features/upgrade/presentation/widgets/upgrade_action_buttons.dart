@@ -15,7 +15,7 @@ class UpgradeActionButtons extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         OutlinedButton(
-          // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+
           onPressed: () => context.push('/go-pro'),
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.grey.shade800,

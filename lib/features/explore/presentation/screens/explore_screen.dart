@@ -4,6 +4,7 @@ import '../../data/repositories/explore_repository_impl.dart';
 import '../../domain/usecases/get_explore_data.dart';
 import '../providers/explore_provider.dart';
 import '../widgets/explore_recommended_template_card.dart';
+import '../widgets/explore_shimmer.dart';
 import '../widgets/explore_template_list_item.dart';
 import '../widgets/explore_why_use_templates_card.dart';
 
@@ -48,7 +49,7 @@ class ExploreScreen extends StatelessWidget {
                     
                     // Body
                     if (provider.isLoading)
-                      const Center(child: CircularProgressIndicator())
+                      const ExploreShimmer()
                     else if (provider.error != null)
                       Center(child: Text(provider.error!))
                     else

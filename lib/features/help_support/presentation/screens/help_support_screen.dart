@@ -11,6 +11,7 @@ import 'package:mindmapai/features/help_support/presentation/cubit/help_support_
 import 'package:mindmapai/features/help_support/presentation/widgets/contact_button.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/faq_accordion.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/help_support_item.dart';
+import 'package:mindmapai/features/help_support/presentation/widgets/help_support_shimmer.dart';
 import 'package:mindmapai/features/help_support/presentation/widgets/quick_help_card_widget.dart';
 
 class HelpSupportScreen extends StatelessWidget {
@@ -114,7 +115,7 @@ class HelpSupportScreen extends StatelessWidget {
                 ),
               );
             }
-            return const Center(child: CircularProgressIndicator());
+            return const HelpSupportShimmer();
           },
         ),
       ),

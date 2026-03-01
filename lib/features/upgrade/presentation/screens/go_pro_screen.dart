@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mindmapai/common/widgets/common_app_bar.dart';
+import 'package:go_router/go_router.dart';
+
 
 class GoProScreen extends StatelessWidget {
   const GoProScreen({super.key});
@@ -193,7 +195,7 @@ class _SubscriptionButton extends StatelessWidget {
         shadowColor: Colors.indigo.shade200,
       ),
       child: const Text(
-        'Subscribe Now - \$9.99/month',
+        'Subscribe Now - \$19.99/month',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -213,7 +215,9 @@ class _LegalLinks extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push('/terms-of-service');
+          },
           child: Text(
             'Terms of Service',
             style: TextStyle(
@@ -226,7 +230,9 @@ class _LegalLinks extends StatelessWidget {
         ),
         Text('•', style: TextStyle(color: Colors.grey.shade500)),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push('/privacy-policy');
+          },
           child: Text(
             'Privacy Policy',
             style: TextStyle(
