@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mindmapai/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:mindmapai/features/profile/domain/usecases/get_user_usecase.dart';
 import 'package:mindmapai/features/profile/domain/usecases/sign_out_usecase.dart';
+import 'package:mindmapai/features/profile/domain/usecases/update_user_usecase.dart';
 import 'package:mindmapai/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:mindmapai/features/profile/presentation/cubit/profile_state.dart';
 import 'package:mindmapai/features/profile/presentation/widgets/profile_card.dart';
@@ -26,6 +27,7 @@ class ProfileScreen extends StatelessWidget {
       create: (context) => ProfileCubit(
         getUserUseCase: GetUserUseCase(profileRepository),
         signOutUseCase: SignOutUseCase(profileRepository),
+        updateUserUseCase: UpdateUserUseCase(profileRepository),
       )..loadUserProfile(),
       child: const ProfileView(),
     );
