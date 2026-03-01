@@ -18,6 +18,7 @@ import 'package:mindmapai/features/settings/presentation/screens/settings_screen
 import 'package:mindmapai/features/settings/presentation/screens/terms_of_service_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
+import 'package:mindmapai/features/result/presentation/screens/result_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/ideas/presentation/screens/ideas_screen.dart';
@@ -29,7 +30,7 @@ import '../../features/splash/presentation/screens/splash_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/result',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -99,6 +100,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/report-problem',
       builder: (context, state) => const ReportProblemScreen(),
+    ),
+    GoRoute(
+      path: '/result',
+      builder: (context, state) => const ResultScreen(),
     ),
     GoRoute(
       path: '/guided-input',
