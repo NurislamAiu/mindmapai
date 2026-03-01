@@ -41,6 +41,7 @@ class _ResultMapViewState extends State<ResultMapView> {
       if (_expandedNodes.contains(id)) {
         _expandedNodes.remove(id);
       } else {
+        _expandedNodes.clear();
         _expandedNodes.add(id);
       }
     });
@@ -170,14 +171,17 @@ class _ResultMapViewState extends State<ResultMapView> {
     for (int i = 0; i < widget.data.branches.length && i < positions.length; i++) {
       final branch = widget.data.branches[i];
       final isExpanded = _expandedNodes.contains(branch.id);
-      
+
       layers.add(
         Positioned.fill(
-          child: _SubBranchesLayer(
-            branch: branch,
-            parentPos: positions[i],
-            isExpanded: isExpanded,
-            color: _getScoreColor(branch.score),
+          child: IgnorePointer(
+            ignoring: !isExpanded,
+            child: _SubBranchesLayer(
+              branch: branch,
+              parentPos: positions[i],
+              isExpanded: isExpanded,
+              color: _getScoreColor(branch.score),
+            ),
           ),
         ),
       );
@@ -200,7 +204,6 @@ class _ResultMapViewState extends State<ResultMapView> {
       final branch = widget.data.branches[i];
       final pos = positions[i];
       final color = _getScoreColor(branch.score);
-      final isLeft = pos.dx < 700;
       final isExpanded = _expandedNodes.contains(branch.id);
 
       nodes.add(
@@ -208,187 +211,171 @@ class _ResultMapViewState extends State<ResultMapView> {
           left: pos.dx,
           top: pos.dy,
           width: 250,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  context.read<ResultCubit>().selectBranch(branch);
-                },
-                child: Container(
-                  width: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFE9EBEF), width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+          child: GestureDetector(
+            // NEW: Single tap to expand/collapse
+            onTap: () => _toggleNode(branch.id),
+            // NEW: Long press to show details
+            onLongPress: () {
+              context.read<ResultCubit>().selectBranch(branch);
+            },
+            child: Container(
+              width: 250,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE9EBEF), width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                ],
+              ),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              branch.title,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF030213),
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              height: 6,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF1F2F4),
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              child: FractionallySizedBox(
-                                alignment: Alignment.centerLeft,
-                                widthFactor: branch.score / 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
+                            Expanded(
+                              child: Text(
+                                branch.title,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF030213),
                                 ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (branch.bullets.isNotEmpty)
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        width: 4,
-                                        height: 4,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFF6366F1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Flexible( // Замена Expanded на Flexible
-                                        child: Text(
-                                          branch.bullets[0],
-                                          style: const TextStyle(
-                                            fontSize: 11,
-                                            color: Color(0xFF717182),
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                const SizedBox(height: 6),
-                                if (branch.bullets.length > 1)
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        width: 4,
-                                        height: 4,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFF6366F1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Flexible( // Замена Expanded на Flexible
-                                        child: Text(
-                                          branch.bullets[1],
-                                          style: const TextStyle(
-                                            fontSize: 11,
-                                            color: Color(0xFF717182),
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                              ],
+                            const SizedBox(width: 8),
+                            AnimatedRotation(
+                              turns: isExpanded ? 0.5 : 0,
+                              duration: const Duration(milliseconds: 300),
+                              child: Icon(
+                                Icons.expand_more,
+                                size: 20,
+                                color: color.withOpacity(0.7),
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      Positioned(
-                        right: -12,
-                        top: -12,
-                        child: Container(
-                          width: 36,
-                          height: 36,
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 6,
+                          width: double.infinity,
                           decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
+                            color: const Color(0xFFF1F2F4),
+                            borderRadius: BorderRadius.circular(3),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            '${branch.score}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                          child: FractionallySizedBox(
+                            alignment: Alignment.centerLeft,
+                            widthFactor: branch.score / 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: color,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: isLeft ? -14 : null,
-                right: isLeft ? null : -14,
-                top: 50,
-                child: GestureDetector(
-                  onTap: () => _toggleNode(branch.id),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: isExpanded ? color : Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: color, width: 2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: color.withOpacity(0.3),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (branch.bullets.isNotEmpty)
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 5),
+                                    width: 4,
+                                    height: 4,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF6366F1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Text(
+                                      branch.bullets[0],
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Color(0xFF717182),
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            const SizedBox(height: 6),
+                            if (branch.bullets.length > 1)
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 5),
+                                    width: 4,
+                                    height: 4,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF6366F1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Text(
+                                      branch.bullets[1],
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Color(0xFF717182),
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          ],
                         ),
                       ],
                     ),
-                    child: Icon(
-                      isExpanded ? Icons.remove : Icons.add,
-                      size: 18,
-                      color: isExpanded ? Colors.white : color,
+                  ),
+                  Positioned(
+                    right: -12,
+                    top: -12,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${branch.score}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       );
@@ -518,7 +505,7 @@ class _SubLinesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(0.4 * progress)
+      ..color = color.withOpacity((0.4 * progress).clamp(0.0, 1.0))
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
 

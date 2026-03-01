@@ -24,7 +24,7 @@ class ResultActionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 120.0),
       children: [
         const Text(
           'Next Steps Checklist',

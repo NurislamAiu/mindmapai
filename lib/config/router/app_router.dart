@@ -19,6 +19,7 @@ import 'package:mindmapai/features/settings/presentation/screens/terms_of_servic
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
 import 'package:mindmapai/features/result/presentation/screens/result_screen.dart';
+import 'package:mindmapai/features/version_history/presentation/screens/version_history_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/ideas/presentation/screens/ideas_screen.dart';
@@ -104,6 +105,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/result',
       builder: (context, state) => const ResultScreen(),
+    ),
+    GoRoute(
+      path: '/version-history',
+      builder: (context, state) => const VersionHistoryScreen(),
     ),
     GoRoute(
       path: '/guided-input',

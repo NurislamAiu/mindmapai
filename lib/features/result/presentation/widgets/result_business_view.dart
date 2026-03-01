@@ -24,7 +24,7 @@ class ResultBusinessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 120.0),
       itemCount: data.branches.length,
       itemBuilder: (context, index) {
         final branch = data.branches[index];

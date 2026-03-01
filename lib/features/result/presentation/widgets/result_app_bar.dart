@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ResultAppBar extends StatelessWidget {
   final String title;
@@ -22,31 +24,21 @@ class ResultAppBar extends StatelessWidget {
         right: 16,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () {
+          IconButton(
+            onPressed: () {
               if (context.canPop()) {
                 context.pop();
               } else {
                 context.go('/');
               }
             },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.arrow_back, size: 20, color: Color(0xFF717182)),
-                  SizedBox(width: 8),
-                  Text(
-                    'Back',
-                    style: TextStyle(fontSize: 15, color: Color(0xFF717182)),
-                  ),
-                ],
-              ),
-            ),
+            icon: const Icon(CupertinoIcons.arrow_left, size: 22, color: Color(0xFF717182)),
           ),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
@@ -71,16 +63,20 @@ class ResultAppBar extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.history, color: Color(0xFF717182)),
+                icon: const Icon(CupertinoIcons.time, color: Color(0xFF717182)),
+                onPressed: () {
+                  context.push('/version-history');
+                },
+              ),
+              IconButton(
+                icon: const Icon(CupertinoIcons.arrow_branch, color: Color(0xFF717182)),
                 onPressed: () {},
               ),
               IconButton(
-                icon: const Icon(Icons.balance, color: Color(0xFF717182)),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.share, color: Color(0xFF717182)),
-                onPressed: () {},
+                icon: const Icon(CupertinoIcons.share, color: Color(0xFF717182)),
+                onPressed: () {
+                  Share.share('Check out my mind map: $title');
+                },
               ),
             ],
           ),
