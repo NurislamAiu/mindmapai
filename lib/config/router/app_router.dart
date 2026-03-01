@@ -5,6 +5,7 @@ import 'package:mindmapai/features/auth/presentation/screens/check_email_screen.
 import 'package:mindmapai/features/auth/presentation/screens/deep_link_success_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:mindmapai/features/auth/presentation/screens/welcome_screen.dart';
+import 'package:mindmapai/features/compare/presentation/screens/compare_screen.dart';
 import 'package:mindmapai/features/contact_support/presentation/screens/contact_support_screen.dart';
 import 'package:mindmapai/features/explore/domain/entities/explore_template.dart';
 import 'package:mindmapai/features/feedback/presentation/screens/send_feedback_screen.dart';
@@ -109,6 +110,17 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/version-history',
       builder: (context, state) => const VersionHistoryScreen(),
+    ),
+    GoRoute(
+      path: '/compare',
+      builder: (context, state) {
+        final previousVersionId = state.uri.queryParameters['previous'];
+        final currentVersionId = state.uri.queryParameters['current'];
+        return CompareScreen(
+          previousVersionId: previousVersionId,
+          currentVersionId: currentVersionId,
+        );
+      },
     ),
     GoRoute(
       path: '/guided-input',

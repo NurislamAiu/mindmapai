@@ -96,7 +96,7 @@ class VersionHistoryScreen extends StatelessWidget {
                                       },
                                       onCompare: () {
                                         print('Comparing version: ${version.id}');
-                                        // context.push('/compare?previous=${version.id}&current=${state.versions.first.id}');
+                                        context.push('/compare?previous=${version.id}&current=${state.versions.first.id}');
                                       },
                                     ),
                                   ),
