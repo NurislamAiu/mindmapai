@@ -18,6 +18,7 @@ import 'package:mindmapai/features/report_problem/presentation/screens/report_pr
 import 'package:mindmapai/features/settings/presentation/screens/privacy_policy_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/terms_of_service_screen.dart';
+import 'package:mindmapai/features/upgrade/presentation/screens/ai_credits_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
 import 'package:mindmapai/features/result/presentation/screens/result_screen.dart';
@@ -75,6 +76,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/go-pro',
       builder: (context, state) => const GoProScreen(),
+    ),
+    GoRoute(
+      path: '/ai-credits',
+      builder: (context, state) => AICreditsScreen(
+        onGetCredits: () => context.push('/upgrade'),
+        onGoPro: () => context.push('/go-pro'),
+        onViewHistory: () => context.push('/version-history'),
+      ),
     ),
     GoRoute(
       path: '/settings',

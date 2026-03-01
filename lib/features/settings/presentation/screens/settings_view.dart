@@ -60,7 +60,7 @@ class SettingsView extends StatelessWidget {
                         icon: Iconsax.star,
                         label: 'AI Credits',
                         value: '${state.userProfile.credits} remaining',
-                        onTap: () => context.push('/upgrade'),
+                        onTap: () => context.push('/ai-credits'),
                       ),
                       SettingItem(
                         icon: Iconsax.document_text,

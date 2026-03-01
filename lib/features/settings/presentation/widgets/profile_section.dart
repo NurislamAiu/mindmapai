@@ -6,6 +6,7 @@ import 'package:mindmapai/features/settings/domain/entities/user_profile.dart';
 
 class ProfileSection extends StatelessWidget {
   final UserProfile userProfile;
+
   const ProfileSection({super.key, required this.userProfile});
 
   @override
@@ -47,9 +48,14 @@ class ProfileSection extends StatelessWidget {
                 height: 52,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isPro ? Colors.white.withOpacity(0.1) : Colors.grey.shade100,
+                  color: isPro
+                      ? Colors.white.withOpacity(0.1)
+                      : Colors.grey.shade100,
                   border: isPro
-                      ? Border.all(color: Colors.white.withOpacity(0.2), width: 1.5)
+                      ? Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 1.5,
+                        )
                       : null,
                 ),
                 child: Center(
@@ -65,31 +71,19 @@ class ProfileSection extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userProfile.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: isPro ? Colors.white : Colors.grey.shade900,
-                          ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      userProfile.email,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: isPro
-                                ? Colors.white.withOpacity(0.8)
-                                : Colors.grey.shade600,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    ),
-                  ],
+                child: Text(
+                  userProfile.name,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isPro ? Colors.white : Colors.grey.shade900,
+                  ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: isPro
                       ? Colors.white.withOpacity(0.15)
@@ -99,7 +93,11 @@ class ProfileSection extends StatelessWidget {
                 child: Row(
                   children: [
                     if (isPro)
-                      Icon(Iconsax.crown_1, size: 14, color: Colors.yellow.shade600),
+                      Icon(
+                        Iconsax.crown_1,
+                        size: 14,
+                        color: Colors.yellow.shade600,
+                      ),
                     if (isPro) const SizedBox(width: 6),
                     Text(
                       isPro ? 'Pro' : 'Free',
@@ -114,6 +112,16 @@ class ProfileSection extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 4),
+          Text(
+            userProfile.email,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: isPro
+                  ? Colors.white.withOpacity(0.8)
+                  : Colors.grey.shade600,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
@@ -121,8 +129,9 @@ class ProfileSection extends StatelessWidget {
               context.push('/go-pro');
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  isPro ? Colors.white.withOpacity(0.9) : Colors.indigo.shade500,
+              backgroundColor: isPro
+                  ? Colors.white.withOpacity(0.9)
+                  : Colors.indigo.shade500,
               foregroundColor: isPro ? Colors.indigo.shade600 : Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -133,7 +142,10 @@ class ProfileSection extends StatelessWidget {
             child: Center(
               child: Text(
                 isPro ? 'Manage Subscription' : 'Upgrade to Pro',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
