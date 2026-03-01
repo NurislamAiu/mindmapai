@@ -177,7 +177,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             decoration: TextDecoration.underline,
                              color: Colors.grey.shade800,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()..onTap = () => context.push('/terms-of-service'),
                         ),
                         const TextSpan(text: ' and '),
                         TextSpan(
@@ -186,7 +186,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             decoration: TextDecoration.underline,
                              color: Colors.grey.shade800,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer: TapGestureRecognizer()..onTap = () => context.push('/privacy-policy'),
                         ),
                       ],
                     ),

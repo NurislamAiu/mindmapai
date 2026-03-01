@@ -26,8 +26,8 @@ class _ResultMapViewState extends State<ResultMapView> {
     _transformationController = TransformationController();
     
     _transformationController.value = Matrix4.identity()
-      ..translate(-120.0, -50.0)
-      ..scale(0.40);
+      ..translate(-40.0, 50.0)
+      ..scale(0.35);
   }
 
   @override
