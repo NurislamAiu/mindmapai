@@ -39,7 +39,7 @@ class VersionHistoryScreen extends StatelessWidget {
                   elevation: 0,
                   scrolledUnderElevation: 0,
                   leading: IconButton(
-                    icon: const Icon(Iconsax.arrow_left_2, color: Color(0xFF717182)),
+                    icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
                     onPressed: () => context.pop(),
                   ),
                   bottom: PreferredSize(

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:iconsax/iconsax.dart';
+
 
 class ResultAppBar extends StatelessWidget {
   final String title;
@@ -34,7 +36,7 @@ class ResultAppBar extends StatelessWidget {
                 context.go('/');
               }
             },
-            icon: const Icon(CupertinoIcons.arrow_left, size: 22, color: Color(0xFF717182)),
+            icon: Icon(Iconsax.arrow_left_2, size: 22, color: Colors.black),
           ),
           Expanded(
             child: Column(
