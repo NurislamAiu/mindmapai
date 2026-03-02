@@ -18,6 +18,10 @@ import 'package:mindmapai/features/report_problem/presentation/screens/report_pr
 import 'package:mindmapai/features/settings/presentation/screens/privacy_policy_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mindmapai/features/settings/presentation/screens/terms_of_service_screen.dart';
+import 'package:mindmapai/features/settings/presentation/screens/app_version_history_screen.dart';
+import 'package:mindmapai/features/settings/domain/entities/app_version_log.dart';
+import 'package:mindmapai/features/usage_history/presentation/screens/usage_history_screen.dart';
+import 'package:mindmapai/features/usage_history/domain/entities/usage_entry.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/ai_credits_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/go_pro_screen.dart';
 import 'package:mindmapai/features/upgrade/presentation/screens/upgrade_screen.dart';
@@ -82,7 +86,7 @@ final appRouter = GoRouter(
       builder: (context, state) => AICreditsScreen(
         onGetCredits: () => context.push('/upgrade'),
         onGoPro: () => context.push('/go-pro'),
-        onViewHistory: () => context.push('/version-history'),
+        onViewHistory: () => context.push('/usage-history'),
       ),
     ),
     GoRoute(
@@ -120,6 +124,23 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/version-history',
       builder: (context, state) => const VersionHistoryScreen(),
+    ),
+    GoRoute(
+      path: '/app-version-history',
+      builder: (context, state) => AppVersionHistoryScreen(
+        versions: AppVersionLog.mockHistory,
+      ),
+    ),
+    GoRoute(
+      path: '/usage-history',
+      builder: (context, state) => UsageHistoryScreen(
+        entries: UsageEntry.mockEntries, // Используем моковые данные
+        onAnalyzeNew: () => context.go('/explore'),
+        onEntryClick: (entry) {
+          // Действие по клику, например переход к результату
+          debugPrint('Clicked on usage entry: \${entry.ideaName}');
+        },
+      ),
     ),
     GoRoute(
       path: '/compare',

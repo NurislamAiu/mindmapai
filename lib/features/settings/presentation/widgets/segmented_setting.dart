@@ -27,7 +27,7 @@ class SegmentedSetting<T extends Object> extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: Colors.grey.shade900, size: 22),
+              Icon(icon, color: Colors.black, size: 22),
               const SizedBox(width: 16),
               Expanded(
                 child: Text(
@@ -35,7 +35,7 @@ class SegmentedSetting<T extends Object> extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w400),
+                      ?.copyWith(fontWeight: FontWeight.w400, color: Colors.black),
                 ),
               ),
             ],

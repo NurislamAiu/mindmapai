@@ -77,7 +77,10 @@ class ResultAppBar extends StatelessWidget {
               IconButton(
                 icon: const Icon(CupertinoIcons.share, color: Color(0xFF717182)),
                 onPressed: () {
-                  Share.share('Check out my mind map: $title');
+                  // Create a simple slug from the title for the URL
+                  final mapId = title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-');
+                  final shareLink = 'https://mindmapai.app/map/$mapId';
+                  Share.share('Check out my mindra and collaborate with me: $shareLink');
                 },
               ),
             ],

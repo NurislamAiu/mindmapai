@@ -63,14 +63,9 @@ class SettingsView extends StatelessWidget {
                         onTap: () => context.push('/ai-credits'),
                       ),
                       SettingItem(
-                        icon: Iconsax.document_text,
-                        label: 'Version history',
-                        onTap: () => showFeatureNotImplementedSnackBar(context, 'Version history'),
-                      ),
-                      SettingItem(
                         icon: Iconsax.chart,
                         label: 'Usage history',
-                        onTap: () => showFeatureNotImplementedSnackBar(context, 'Usage history'),
+                        onTap: () => context.push('/usage-history'),
                       ),
                       SettingItem(
                         icon: Iconsax.crown,
@@ -147,6 +142,11 @@ class SettingsView extends StatelessWidget {
                         icon: Iconsax.document,
                         label: 'Terms of service',
                         onTap: () => context.push('/terms-of-service'),
+                      ),
+                      SettingItem(
+                        icon: Iconsax.document_text,
+                        label: 'App version history',
+                        onTap: () => context.push('/app-version-history'),
                       ),
                       SettingItem(
                         icon: Iconsax.user_remove,
